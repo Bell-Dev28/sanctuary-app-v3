@@ -1,10 +1,8 @@
 import { JournalEntry, EntryProps } from "./_components/journal-entry";
 
-// This is a robust and standard way to type props for dynamic pages
-// in recent versions of Next.js.
-type PageProps<T = { journalId: string }> = {
-  params: T;
-  searchParams?: { [key: string]: string | string[] | undefined };
+// This type reflects the new asynchronous nature of props in Next.js 15
+type SanctuaryPageProps = {
+  params: Promise<{ journalId: string }>;
 };
 
 // --- Mock Data ---
@@ -12,22 +10,25 @@ const mockEntries: EntryProps[] = [
     {
         id: "1",
         author: { name: "Marie", avatarUrl: "https://github.com/shadcn.png" },
-        content: "I felt a little distant today. I was thinking about the conversation we had this morning and wasn't sure how to bring it up again.",
+        content: "I felt a little distant today...",
         timestamp: "10:30 AM",
         isOwnEntry: false,
     },
     {
         id: "2",
         author: { name: "Aaron", avatarUrl: "https://github.com/aaron.png" },
-        content: "I noticed that too. I'm so glad you wrote it here. I've been thinking about it as well and wanted to make sure you felt heard.",
+        content: "I noticed that too...",
         timestamp: "10:35 AM",
         isOwnEntry: true,
     },
 ];
 
-// Apply the robust PageProps type here
-export default function SanctuaryPage({ params }: PageProps) {
-  const journalTitle = params.journalId.charAt(0).toUpperCase() + params.journalId.slice(1);
+// The page component MUST be an `async` function now
+export default async function SanctuaryPage({ params }: SanctuaryPageProps) {
+  // You MUST `await` the params object to resolve the promise
+  const { journalId } = await params;
+  
+  const journalTitle = journalId.charAt(0).toUpperCase() + journalId.slice(1);
 
   return (
     <div className="h-full flex flex-col p-4 md:p-6">
