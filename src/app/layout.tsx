@@ -1,38 +1,30 @@
-// src/app/layout.tsx
-import './globals.css';
-import { Metadata } from 'next';
-import AppLayout from '@/components/AppLayout';
-import { AuthProvider } from '@/context/AuthContext';
-import { Toaster } from 'sonner';
+import type { Metadata } from "next";
+import { Inter, Lora } from "next/font/google";
+import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
+const lora = Lora({
+  subsets: ["latin"],
+  variable: "--font-lora",
+});
 
 export const metadata: Metadata = {
-  title: 'Sanctuary',
-  description: 'Your private AI-powered journaling sanctuary',
+  title: "Sanctuary",
+  description: "A private digital space for connection.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="manifest" href="/manifest.webmanifest" />
-      </head>
-      <body>
-        <AuthProvider>
-          <AppLayout>{children}</AppLayout>
-          <Toaster richColors position="bottom-right" />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                if ('serviceWorker' in navigator) {
-                  window.addEventListener('load', () => {
-                    navigator.serviceWorker.register('/sw.js');
-                  });
-                }
-              `,
-            }}
-          />
-        </AuthProvider>
-      </body>
+    <html lang="en" className={`${inter.variable} ${lora.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }
