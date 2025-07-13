@@ -4,7 +4,6 @@ import { JournalEntry, EntryProps } from "./_components/journal-entry";
 // In a real app, this would come from your database for the specific journalId.
 // The `isOwnEntry` flag would be set by comparing the entry's author ID
 // with the currently logged-in user's ID.
-
 const mockEntries: EntryProps[] = [
     {
         id: "1",
@@ -15,7 +14,7 @@ const mockEntries: EntryProps[] = [
     },
     {
         id: "2",
-        author: { name: "Aaron", avatarUrl: "https://github.com/aaron.png" }, // Placeholder URL
+        author: { name: "Aaron", avatarUrl: "https://github.com/aaron.png" },
         content: "I noticed that too. I'm so glad you wrote it here. I've been thinking about it as well and wanted to make sure you felt heard.",
         timestamp: "10:35 AM",
         isOwnEntry: true,
@@ -29,9 +28,15 @@ const mockEntries: EntryProps[] = [
     },
 ];
 
+// Define the correct props interface for the page
+interface SanctuaryPageProps {
+  params: {
+    journalId: string;
+  };
+}
 
-// We can use the params to fetch the correct journal title
-export default function SanctuaryPage({ params }: { params: { journalId: string } }) {
+// Apply the interface to the component's props
+export default function SanctuaryPage({ params }: SanctuaryPageProps) {
   const journalTitle = params.journalId.charAt(0).toUpperCase() + params.journalId.slice(1);
 
   return (
@@ -49,7 +54,6 @@ export default function SanctuaryPage({ params }: { params: { journalId: string 
 
         {/* The text input area for new entries would go here */}
         <footer className="mt-6">
-            {/* Placeholder for the message input component */}
             <div className="w-full h-16 rounded-lg bg-secondary flex items-center justify-center">
                 <p className="text-muted-foreground text-sm">Message Input Area</p>
             </div>
