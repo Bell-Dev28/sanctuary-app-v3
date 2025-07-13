@@ -1,9 +1,13 @@
 import { JournalEntry, EntryProps } from "./_components/journal-entry";
 
+// This is a robust and standard way to type props for dynamic pages
+// in recent versions of Next.js.
+type PageProps<T = { journalId: string }> = {
+  params: T;
+  searchParams?: { [key: string]: string | string[] | undefined };
+};
+
 // --- Mock Data ---
-// In a real app, this would come from your database for the specific journalId.
-// The `isOwnEntry` flag would be set by comparing the entry's author ID
-// with the currently logged-in user's ID.
 const mockEntries: EntryProps[] = [
     {
         id: "1",
@@ -19,24 +23,10 @@ const mockEntries: EntryProps[] = [
         timestamp: "10:35 AM",
         isOwnEntry: true,
     },
-    {
-        id: "3",
-        author: { name: "Marie", avatarUrl: "https://github.com/shadcn.png" },
-        content: "That means so much to hear. Thank you for creating this space for us. It really does make it easier.",
-        timestamp: "10:37 AM",
-        isOwnEntry: false,
-    },
 ];
 
-// Define the correct props interface for the page
-interface SanctuaryPageProps {
-  params: {
-    journalId: string;
-  };
-}
-
-// Apply the interface to the component's props
-export default function SanctuaryPage({ params }: SanctuaryPageProps) {
+// Apply the robust PageProps type here
+export default function SanctuaryPage({ params }: PageProps) {
   const journalTitle = params.journalId.charAt(0).toUpperCase() + params.journalId.slice(1);
 
   return (
@@ -52,7 +42,6 @@ export default function SanctuaryPage({ params }: SanctuaryPageProps) {
             ))}
         </div>
 
-        {/* The text input area for new entries would go here */}
         <footer className="mt-6">
             <div className="w-full h-16 rounded-lg bg-secondary flex items-center justify-center">
                 <p className="text-muted-foreground text-sm">Message Input Area</p>
