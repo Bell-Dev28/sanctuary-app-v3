@@ -1,0 +1,30 @@
+/* src/app/globals.css */
+
+/* 1. Inject Tailwind’s base (Preflight + your layer-base overrides) */
+@tailwind base;
+
+/* 2. Inject any component classes from Tailwind or your @layer components */
+@tailwind components;
+
+/* 3. Inject Tailwind’s utility classes */
+@tailwind utilities;
+
+/* ========================================================================
+   Your Global Overrides & Custom Styles
+   ======================================================================== */
+@layer base {
+  /* Example: set a default font, background & text color */
+  body {
+    @apply font-sans bg-gray-50 text-gray-900;
+  }
+
+  /* Example: style all links */
+  a {
+    @apply text-blue-600 hover:underline;
+  }
+
+  /* You can add more base-level styles here */
+}
+
+/* If you need global component overrides, you can use @layer components { … } */
+/* And any custom utilities or extra rules in @layer utilities { … } */

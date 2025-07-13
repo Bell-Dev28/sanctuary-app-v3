@@ -1,0 +1,8 @@
+{
+  "/journal/page": "/journal",
+  "/_not-found/page": "/_not-found",
+  "/login/page": "/login",
+  "/page": "/",
+  "/studio/[journalTile]/page": "/studio/[journalTile]",
+  "/profile/page": "/profile"
+}

@@ -1,0 +1,8 @@
+{
+  "/journal/page": "app/journal/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js",
+  "/studio/[journalTile]/page": "app/studio/[journalTile]/page.js",
+  "/profile/page": "app/profile/page.js"
+}
