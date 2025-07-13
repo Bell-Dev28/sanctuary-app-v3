@@ -1,12 +1,9 @@
-// app/(main)/_components/side-nav.tsx
-
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, BrainCircuit, Home, MessageSquare, Menu } from "lucide-react";
+import { BookOpen, BrainCircuit, Home, MessageSquare, Menu, User } from "lucide-react";
 
-// The 'cn' import that was causing the error has been removed.
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -23,10 +20,15 @@ const routes = [
     href: "/playbooks",
   },
   {
-    label: "AI Sandbox", // This can link to your general AI assistant page
+    label: "AI Assistant",
     icon: BrainCircuit,
-    href: "/assistant", 
+    href: "/assistant",
   },
+  {
+    label: "Profile",
+    icon: User,
+    href: "/profile",
+  }
 ];
 
 export function SideNav() {
@@ -34,10 +36,10 @@ export function SideNav() {
 
   const navContent = (
     <>
-      <div className="p-4 mb-4 border-b border-border">
+      <div className="p-4 mb-4 border-b">
         <Link href="/home" className="flex items-center gap-x-3">
           <MessageSquare className="h-8 w-8 text-primary" />
-          <h1 className="text-2xl font-serif font-bold text-foreground">
+          <h1 className="text-2xl font-serif font-bold">
             Sanctuary
           </h1>
         </Link>
@@ -77,7 +79,7 @@ export function SideNav() {
       </div>
 
       {/* --- Desktop Sidebar (Permanent) --- */}
-      <aside className="hidden md:flex flex-col h-full w-72 bg-card border-r border-border shadow-sm">
+      <aside className="hidden md:flex flex-col h-full w-72 bg-card border-r">
         {navContent}
       </aside>
     </>
