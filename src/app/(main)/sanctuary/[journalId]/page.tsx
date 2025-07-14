@@ -1,25 +1,37 @@
 import { JournalEntry, EntryProps } from "./_components/journal-entry";
-import { PlaybookGenerator } from "./_components/playbook-generator"; // Import the new component
+import { PlaybookGenerator } from "./_components/playbook-generator";
+
+// This type is correct for Next.js 15 Server Components with dynamic routes
+type SanctuaryPageProps = {
+  params: Promise<{ journalId: string }>;
+};
 
 const mockEntries: EntryProps[] = [
-    // ... (your mock entries remain the same)
+    { id: "1", author: { name: "Marie", avatarUrl: "https://github.com/shadcn.png" }, content: "I felt a little distant today...", isOwnEntry: false },
+    { id: "2", author: { name: "Aaron", avatarUrl: "https://github.com/aaron.png" }, content: "I noticed that too...", isOwnEntry: true },
 ];
 
 const topicTitles: { [key: string]: string } = {
-  // ... (your topic titles remain the same)
+  unspoken: "The Unspoken",
+  peacemakers: "The Peacemaker's Playbook",
+  dreams: "The Dream Journal",
 };
 
-export default function SanctuaryPage({ params }: { params: { journalId: string } }) {
-  const journalTitle = topicTitles[params.journalId] || "Our Journal";
+// The component MUST be an `async` function
+export default async function SanctuaryPage({ params }: SanctuaryPageProps) {
+  // You MUST `await` the params to get their value
+  const { journalId } = await params;
+
+  const journalTitle = topicTitles[journalId] || "Our Journal";
 
   return (
     <div className="h-screen flex flex-col p-6 md:p-10">
-        <header className="flex justify-between items-center border-b border-border pb-4 mb-6">
+        <header className="flex justify-between items-center border-b pb-4 mb-6">
             <div>
                 <h1 className="text-3xl font-serif font-bold">{journalTitle}</h1>
                 <p className="text-muted-foreground">Our shared history. A space for truth and connection.</p>
             </div>
-            <PlaybookGenerator /> {/* Add the component here */}
+            <PlaybookGenerator />
         </header>
 
         <div className="flex-1 space-y-6 overflow-y-auto pr-4">
