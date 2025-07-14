@@ -1,27 +1,57 @@
-import type { Metadata } from "next";
-import { Inter, Lora } from "next/font/google";
-import { AuthProvider } from "@/context/AuthContext";
-import "./globals.css"; // Ensure this import is here
+// src/app/layout.tsx
+"use client";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const lora = Lora({ subsets: ["latin"], variable: "--font-lora" });
+import "@/app/globals.css";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: "Sanctuary",
-  description: "A private digital space for connection.",
+export const metadata = {
+  title: "Sanctuary App",
+  description: "A deeply personal and collaborative journaling experience",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const [dark, setDark] = useState(false);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+  }, [dark]);
+
   return (
-    <html lang="en" className={`${inter.variable} ${lora.variable}`}>
-      <body>
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+    <html lang="en">
+      <body className="transition-colors">
+        <div className="flex h-screen">
+          {/* Sidebar */}
+          <aside className="w-64 bg-white dark:bg-gray-800 border-r shadow-md p-4 flex flex-col">
+            <div className="text-2xl font-semibold mb-6 text-gray-800 dark:text-white">
+              Sanctuary
+            </div>
+            <nav className="space-y-4 text-gray-700 dark:text-gray-300">
+              <Link href="/">📚 Shared Library</Link>
+              <Link href="/studio/sample">💡 Private AI Studio</Link>
+              <Link href="/sanctuary/sample">🤝 Shared Sanctuary</Link>
+              <Link href="/playbooks">📖 Playbooks</Link>
+              <Link href="/features/assistant">🎙️ Your AI Assistant</Link>
+              <Link href="/profile">👤 Profile</Link>
+            </nav>
+            <div className="mt-auto pt-6 text-xs text-gray-400 dark:text-gray-500">
+              Signed in as Marie
+              <div className="mt-4">
+                <button
+                  onClick={() => setDark(!dark)}
+                  className="px-3 py-1 border rounded text-xs"
+                >
+                  {dark ? "☀️ Light Mode" : "🌙 Dark Mode"}
+                </button>
+              </div>
+            </div>
+          </aside>
+
+          {/* Main Content */}
+          <main className="flex-1 overflow-y-auto p-8 bg-white dark:bg-gray-900 transition-colors">
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   );
