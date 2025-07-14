@@ -1,8 +1,6 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { PlaybookCard, Playbook } from "./_components/playbook-card";
 
-// --- Mock Data ---
-// In a real app, this would be fetched from your database and grouped by topic.
 const playbooksByTopic: { topic: string; playbooks: Playbook[] }[] = [
   {
     topic: "From 'The Unspoken'",
@@ -10,14 +8,14 @@ const playbooksByTopic: { topic: string; playbooks: Playbook[] }[] = [
       {
         id: "pb1",
         title: "The 'Check-In' Ritual",
-        content: "A simple ritual for us to reconnect when we feel distant.\n1. One of us initiates by saying 'I'd love to check-in.'\n2. We find a quiet moment and each share one thing on our mind, and one thing we appreciate about the other person today.",
+        content: "A simple ritual for us to reconnect when we feel distant...",
         isFavoritedByMe: true,
         isFavoritedByPartner: true,
       },
       {
         id: "pb2",
         title: "The 'Safe Word' for Arguments",
-        content: "When a discussion gets too heated, either of us can say 'Sanctuary'. This means we pause the conversation for 10 minutes to cool down, no questions asked.",
+        content: "When a discussion gets too heated, either of us can say 'Sanctuary'...",
         isFavoritedByMe: true,
         isFavoritedByPartner: false,
       },
@@ -29,7 +27,7 @@ const playbooksByTopic: { topic: string; playbooks: Playbook[] }[] = [
       {
         id: "pb3",
         title: "The 'Unity' Perspective",
-        content: "When we disagree, we state the problem as a shared challenge. Instead of 'You did X', we say 'We have a situation with X. How can we solve it together?'",
+        content: "When we disagree, we state the problem as a shared challenge...",
         isFavoritedByMe: false,
         isFavoritedByPartner: true,
       },
@@ -37,10 +35,9 @@ const playbooksByTopic: { topic: string; playbooks: Playbook[] }[] = [
   },
 ];
 
-
 export default function PlaybooksPage() {
   return (
-    <div className="h-full px-4 py-6 lg:px-8">
+    <div className="h-full p-6 md:p-10">
         <div className="mb-8">
             <h1 className="text-4xl font-serif font-bold tracking-tight">
                 Our Playbooks

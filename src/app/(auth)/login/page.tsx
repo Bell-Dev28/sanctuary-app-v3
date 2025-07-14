@@ -18,7 +18,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (user) {
-      router.replace(`/home`);
+      router.replace(`/home`); // Redirect to a home page after login
     }
   }, [user, router]);
 
@@ -26,7 +26,8 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      await signInWithEmail(email, password);
+      const { error } = await signInWithEmail(email, password);
+      if (error) throw error;
       toast.success('Signed in successfully!');
       router.replace(`/home`);
     } catch (err: unknown) {
@@ -38,55 +39,57 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="w-full max-w-md p-8 md:p-10 space-y-8 bg-card rounded-2xl shadow-2xl border border-border">
-      <div className="text-center">
-        <div className="inline-flex items-center justify-center mb-4">
-          <MessageSquare className="h-10 w-10 text-primary" />
+    <main className="flex items-center justify-center h-screen">
+      <div className="w-full max-w-md p-8 md:p-10 space-y-8 bg-card rounded-2xl shadow-2xl border border-border">
+        <div className="text-center">
+          <div className="inline-flex items-center justify-center mb-4">
+              <MessageSquare className="h-10 w-10 text-primary" />
+          </div>
+          <h1 className="text-4xl font-serif font-bold text-foreground">
+            Sanctuary
+          </h1>
+          <p className="text-muted-foreground mt-2">
+            A private space for connection.
+          </p>
         </div>
-        <h1 className="text-4xl font-serif font-bold text-foreground">
-          Sanctuary
-        </h1>
-        <p className="text-muted-foreground mt-2">
-          A private space for connection.
-        </p>
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-4">
+              <div>
+                  <label htmlFor="email" className="sr-only">Email</label>
+                  <Input
+                      id="email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Email Address"
+                      required
+                      className="h-12 bg-input text-base"
+                  />
+              </div>
+              <div>
+                  <label htmlFor="password" className="sr-only">Password</label>
+                  <Input
+                      id="password"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Password"
+                      required
+                      className="h-12 bg-input text-base"
+                  />
+              </div>
+          </div>
+          <Button
+            type="submit"
+            disabled={loading}
+            className="w-full font-bold tracking-wide text-card-foreground"
+            size="lg"
+          >
+            {loading ? 'Signing In…' : 'Secure Sign In'}
+          </Button>
+        </form>
       </div>
-      
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="space-y-4">
-          <div>
-            <label htmlFor="email" className="sr-only">Email</label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email Address"
-              required
-              className="h-12 bg-input"
-            />
-          </div>
-          <div>
-            <label htmlFor="password" className="sr-only">Password</label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-              required
-              className="h-12 bg-input"
-            />
-          </div>
-        </div>
-        <Button
-          type="submit"
-          disabled={loading}
-          className="w-full font-bold tracking-wide"
-          size="lg"
-        >
-          {loading ? 'Signing In…' : 'Secure Sign In'}
-        </Button>
-      </form>
-    </div>
+    </main>
   );
 }

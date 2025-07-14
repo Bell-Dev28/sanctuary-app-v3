@@ -4,19 +4,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-// Make sure you have this utility installed from shadcn/ui.
-// If not: npm install clsx tailwind-merge
-// Then create lib/utils.ts with the code from shadcn/ui docs.
-
 export interface EntryProps {
   id: string;
   author: {
     name: string;
-    avatarUrl?: string; // Optional avatar image URL
+    avatarUrl?: string;
   };
   content: string;
-  timestamp: string;
-  isOwnEntry: boolean; // Crucial prop for styling
+  isOwnEntry: boolean;
 }
 
 export const JournalEntry = ({ entry }: { entry: EntryProps }) => {
@@ -27,7 +22,6 @@ export const JournalEntry = ({ entry }: { entry: EntryProps }) => {
         entry.isOwnEntry ? "justify-end" : "justify-start"
       )}
     >
-      {/* Avatar for partner */}
       {!entry.isOwnEntry && (
         <Avatar className="h-8 w-8">
           <AvatarImage src={entry.author.avatarUrl} />
@@ -44,12 +38,14 @@ export const JournalEntry = ({ entry }: { entry: EntryProps }) => {
         )}
       >
         <CardContent className="p-4">
-            {/* Here you would render markdown. For now, we use a simple p tag */}
-            <p className="text-base">{entry.content}</p>
+          <p className="text-base">{entry.content}</p>
+          {/* A placeholder for the comment system */}
+          <p className="text-xs text-muted-foreground/50 mt-2 cursor-pointer hover:underline">
+            Reply...
+          </p>
         </CardContent>
       </Card>
       
-      {/* Avatar for self */}
       {entry.isOwnEntry && (
         <Avatar className="h-8 w-8">
           <AvatarImage src={entry.author.avatarUrl} />
