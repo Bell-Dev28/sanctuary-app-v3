@@ -1,30 +1,21 @@
 import type { Metadata } from "next";
 import { Inter, Lora } from "next/font/google";
-import "./globals.css"; // This line imports all your app's styling
+import { AuthProvider } from "@/context/AuthContext";
+import "./globals.css"; // Ensure this import is here
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const lora = Lora({ subsets: ["latin"], variable: "--font-lora" });
 
-const lora = Lora({
-  subsets: ["latin"],
-  variable: "--font-lora",
-});
+export const metadata: Metadata = { /* ... */ };
 
-export const metadata: Metadata = {
-  title: "Sanctuary",
-  description: "A private digital space for connection.",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${lora.variable}`}>
-      <body>{children}</body>
+      <body>
+        <AuthProvider>
+          {children}
+        </AuthProvider>
+      </body>
     </html>
   );
 }
