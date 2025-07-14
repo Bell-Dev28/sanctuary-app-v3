@@ -1,5 +1,3 @@
-// This comment disables the ESLint rule for this line only,
-// allowing the use of require() which is needed for the build process.
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const animate = require("tailwindcss-animate");
 
@@ -7,10 +5,10 @@ const animate = require("tailwindcss-animate");
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/**/*.{js,ts,jsx,tsx,mdx}', // Ensure all files in src are scanned
   ],
   theme: {
     container: {
@@ -64,20 +62,6 @@ module.exports = {
       fontFamily: {
         sans: ["var(--font-inter)"],
         serif: ["var(--font-lora)"],
-      },
-      keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
