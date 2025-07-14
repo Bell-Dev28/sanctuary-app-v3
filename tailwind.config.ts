@@ -1,17 +1,10 @@
-import type { Config } from "tailwindcss";
-
-const config: Config = {
+/** @type {import('tailwindcss').Config} */
+module.exports = {
   content: [
-    "./src/**/*.{ts,tsx}",
+    './src/**/*.{ts,tsx}',
   ],
   theme: {
-    extend: {
-      animation: {
-        pulseFast: "pulse 1s ease-in-out infinite",
-      },
-    },
+    extend: {},
   },
   plugins: [],
 };
-
-export default config;
