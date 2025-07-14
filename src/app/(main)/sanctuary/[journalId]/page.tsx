@@ -17,9 +17,9 @@ const topicTitles: { [key: string]: string } = {
   dreams: "The Dream Journal",
 };
 
-// The component MUST be an `async` function
+// The component is correctly defined as an `async` function
 export default async function SanctuaryPage({ params }: SanctuaryPageProps) {
-  // You MUST `await` the params to get their value
+  // The params object is correctly `await`ed
   const { journalId } = await params;
 
   const journalTitle = topicTitles[journalId] || "Our Journal";
