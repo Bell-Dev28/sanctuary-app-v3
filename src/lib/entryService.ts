@@ -1,45 +1,42 @@
 // src/lib/entryService.ts
-import { supabase } from './supabaseClient';
-import { encrypt, decrypt } from './encryptionService';
-import type { Database } from './database';
+import { supabase } from "./supabaseClient";
 
-export type JournalEntry = Database['public']['Tables']['journal_entries']['Row'];
+export type JournalEntry = {
+  id: string;
+  journal_id: string;
+  author: "marie" | "aaron";
+  text: string;
+  created_at: string;
+};
 
-/**
- * Inserts a new journal entry (encrypted) and returns the decrypted entry.
- */
-export async function insertJournalEntry(
-  topicId: string,
-  content: string
-): Promise<JournalEntry> {
-  const encrypted = encrypt(content);
+export async function fetchJournalEntries(journalId: string) {
   const { data, error } = await supabase
-    .from('journal_entries')
-    .insert({ topic_id: topicId, content: encrypted })
-    .select('*')
-    .single();
+    .from("journal_entries")
+    .select("*")
+    .eq("journal_id", journalId)
+    .order("created_at", { ascending: true });
 
-  if (error) throw error;
-  if (!data) throw new Error('Failed to insert journal entry.');
+  if (error) {
+    console.error("Fetch journal entries error:", error.message);
+    return [];
+  }
 
-  return { ...data, content: decrypt(data.content) };
+  return data as JournalEntry[];
 }
 
-/**
- * Fetches all journal entries for a given topic, decrypting each.
- */
-export async function fetchJournalEntries(
-  topicId: string
-): Promise<JournalEntry[]> {
-  const { data, error } = await supabase
-    .from('journal_entries')
-    .select('*')
-    .eq('topic_id', topicId)
-    .order('created_at', { ascending: true });
+export async function addJournalEntry(journalId: string, author: string, text: string) {
+  const { data, error } = await supabase.from("journal_entries").insert([
+    {
+      journal_id: journalId,
+      author,
+      text,
+    },
+  ]);
 
-  if (error) throw error;
-  return (data ?? []).map((row) => ({
-    ...row,
-    content: decrypt(row.content),
-  }));
+  if (error) {
+    console.error("Add journal entry error:", error.message);
+    return null;
+  }
+
+  return data?.[0];
 }

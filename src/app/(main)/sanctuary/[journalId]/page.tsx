@@ -2,37 +2,22 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useState } from "react";
-
-type Entry = {
-  author: "marie" | "aaron";
-  text: string;
-  date: string;
-};
-
-const mockEntries: Entry[] = [
-  {
-    author: "marie",
-    text: "I felt so disconnected this morning… I wasn’t sure how to say what I needed.",
-    date: "2025-07-01",
-  },
-  {
-    author: "aaron",
-    text: "I didn’t realize you were holding that in. I’m sorry if I made you feel alone.",
-    date: "2025-07-01",
-  },
-  {
-    author: "marie",
-    text: "Thank you for saying that. It helps to know you care.",
-    date: "2025-07-02",
-  },
-];
+import { useEffect, useState } from "react";
+import { fetchJournalEntries, JournalEntry } from "@/lib/entryService";
+import { savePlaybook } from "@/lib/playbookService";
 
 export default function SharedSanctuaryPage() {
   const { journalId } = useParams();
+  const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [showPanel, setShowPanel] = useState(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedPlaybook, setSelectedPlaybook] = useState<string>("");
+
+  useEffect(() => {
+    if (typeof journalId === "string") {
+      fetchJournalEntries(journalId).then(setEntries);
+    }
+  }, [journalId]);
 
   const generateSuggestions = () => {
     setSuggestions([
@@ -43,27 +28,33 @@ export default function SharedSanctuaryPage() {
   };
 
   const handleSuggestionClick = (text: string) => {
-    // Simulate AI-generated playbook content
     const generated = `Playbook: ${text}\n\n[Generated content for: ${text} based on your journal.]`;
     setSelectedPlaybook(generated);
   };
 
-  const handleSave = () => {
-    alert("✅ Saved to Playbooks! (Storage coming in next steps)");
-    setSelectedPlaybook("");
-    setSuggestions([]);
+  const handleSave = async () => {
+    const title = selectedPlaybook.split("\n")[0].replace("Playbook: ", "").trim();
+    const content = selectedPlaybook;
+    const id = journalId as string;
+
+    const result = await savePlaybook(id, title, content);
+
+    if (result) {
+      alert("✅ Playbook saved to archive!");
+      setSelectedPlaybook("");
+      setSuggestions([]);
+    } else {
+      alert("❌ Failed to save playbook.");
+    }
   };
 
   return (
     <div className="flex h-full">
-      {/* Main Feed */}
       <main className="flex-1 p-8 bg-gray-50">
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-2xl font-bold">🕊️ Shared Sanctuary</h1>
-            <p className="text-sm text-gray-500 capitalize">
-              Journal: {journalId}
-            </p>
+            <p className="text-sm text-gray-500 capitalize">Journal: {journalId}</p>
           </div>
           <button
             onClick={() => setShowPanel(!showPanel)}
@@ -74,9 +65,9 @@ export default function SharedSanctuaryPage() {
         </div>
 
         <div className="space-y-6">
-          {mockEntries.map((entry, idx) => (
+          {entries.map((entry) => (
             <div
-              key={idx}
+              key={entry.id}
               className={`max-w-xl px-4 py-3 rounded-lg shadow-sm ${
                 entry.author === "marie"
                   ? "bg-blue-100 self-start"
@@ -84,7 +75,7 @@ export default function SharedSanctuaryPage() {
               }`}
             >
               <div className="text-sm text-gray-500 mb-1">
-                {entry.author === "marie" ? "Marie" : "Aaron"} – {entry.date}
+                {entry.author} – {new Date(entry.created_at).toLocaleDateString()}
               </div>
               <div className="text-gray-800">{entry.text}</div>
             </div>
@@ -92,9 +83,9 @@ export default function SharedSanctuaryPage() {
         </div>
       </main>
 
-      {/* Slide-out Panel */}
+      {/* Collaboration Panel */}
       {showPanel && (
-        <aside className="w-96 bg-white border-l p-6 shadow-md animate-slide-in-right flex flex-col">
+        <aside className="w-96 bg-white border-l p-6 shadow-md flex flex-col">
           <h2 className="text-lg font-semibold mb-4">🧩 Collaboration Panel</h2>
 
           <button

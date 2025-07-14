@@ -4,6 +4,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Toaster, toast } from "sonner";
+import { addJournalEntry } from "@/lib/entryService";
 
 export default function PrivateAIStudioPage() {
   const { topicId } = useParams();
@@ -21,14 +22,21 @@ export default function PrivateAIStudioPage() {
     setInput("");
   };
 
-  const handleAddToJournal = (text: string) => {
-    toast.success("Added to shared journal!", {
-      description: `"${text.slice(0, 40)}..."`,
-      action: {
-        label: "View Journal",
-        onClick: () => router.push(`/sanctuary/${topicId}`),
-      },
-    });
+  const handleAddToJournal = async (text: string) => {
+    const journalId = topicId as string;
+    const entry = await addJournalEntry(journalId, "marie", text);
+
+    if (entry) {
+      toast.success("Added to shared journal!", {
+        description: `"${text.slice(0, 40)}..."`,
+        action: {
+          label: "View Journal",
+          onClick: () => router.push(`/sanctuary/${journalId}`),
+        },
+      });
+    } else {
+      toast.error("Failed to save journal entry.");
+    }
   };
 
   return (

@@ -1,73 +1,42 @@
 // src/lib/playbookService.ts
-import { supabase } from './supabaseClient';
-import { encrypt, decrypt } from './encryptionService';
-import type { Database } from './database';
+import { supabase } from "./supabaseClient";
 
-export type Playbook = Database['public']['Tables']['playbooks']['Row'];
+export type Playbook = {
+  id: string;
+  journal_id: string;
+  title: string;
+  content: string;
+  created_at: string;
+};
 
-/**
- * Fetches all playbooks, decrypting their content.
- */
-export async function fetchPlaybooks(): Promise<Playbook[]> {
+export async function fetchPlaybooks(journalId: string) {
   const { data, error } = await supabase
-    .from('playbooks')
-    .select('*')
-    .order('created_at', { ascending: false });
+    .from("playbooks")
+    .select("*")
+    .eq("journal_id", journalId)
+    .order("created_at", { ascending: false });
 
-  if (error) throw error;
-  return (data ?? []).map((p) => ({
-    ...p,
-    content: decrypt(p.content),
-  }));
+  if (error) {
+    console.error("Fetch playbooks error:", error.message);
+    return [];
+  }
+
+  return data as Playbook[];
 }
 
-/**
- * Inserts a new playbook under a topic, encrypting content.
- */
-export async function insertPlaybook(
-  topicId: string,
-  content: string
-): Promise<Playbook> {
-  const encrypted = encrypt(content);
-  const { data, error } = await supabase
-    .from('playbooks')
-    .insert({ topic_id: topicId, content: encrypted })
-    .select('*')
-    .single();
+export async function savePlaybook(journalId: string, title: string, content: string) {
+  const { data, error } = await supabase.from("playbooks").insert([
+    {
+      journal_id: journalId,
+      title,
+      content,
+    },
+  ]);
 
-  if (error) throw error;
-  return { ...data, content: decrypt(data.content) };
-}
+  if (error) {
+    console.error("Save playbook error:", error.message);
+    return null;
+  }
 
-/**
- * Toggles the current user's favorite status on a playbook.
- */
-export async function toggleFavorite(
-  playbookId: string,
-  userId: string
-): Promise<Playbook> {
-  // Get existing favorites array
-  const { data: existing, error: fetchError } = await supabase
-    .from('playbooks')
-    .select('favorites')
-    .eq('id', playbookId)
-    .single();
-
-  if (fetchError || !existing) throw fetchError || new Error('Playbook not found');
-
-  const favs = existing.favorites ?? [];
-  const idx = favs.indexOf(userId);
-  if (idx >= 0) favs.splice(idx, 1);
-  else favs.push(userId);
-
-  // Update the row with new favorites
-  const { data, error } = await supabase
-    .from('playbooks')
-    .update({ favorites: favs })
-    .eq('id', playbookId)
-    .select('*')
-    .single();
-
-  if (error) throw error;
-  return { ...data, content: decrypt(data.content) };
+  return data?.[0];
 }
