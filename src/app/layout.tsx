@@ -6,9 +6,16 @@ import "./globals.css"; // Ensure this import is here
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const lora = Lora({ subsets: ["latin"], variable: "--font-lora" });
 
-export const metadata: Metadata = { /* ... */ };
+export const metadata: Metadata = {
+  title: "Sanctuary",
+  description: "A private digital space for connection.",
+};
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en" className={`${inter.variable} ${lora.variable}`}>
       <body>

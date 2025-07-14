@@ -1,6 +1,7 @@
 import { SideNav } from "./home/_components/side-nav";
 import { PageTransition } from "@/components/shared/PageTransition";
 
+// No provider needed here anymore, as it's in the root layout.
 export default function MainLayout({
   children,
 }: {
