@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { Vortex } from '@/components/ui/vortex'; // Import the new component
+import { Vortex } from '@/components/ui/vortex';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { MessageSquare } from 'lucide-react';
@@ -12,7 +12,6 @@ export default function LoginPage() {
     <div className="mx-auto w-full h-screen overflow-hidden">
       <Vortex
         backgroundColor="black"
-        rangeY={800}
         particleCount={500}
         baseHue={210}
         className="flex items-center flex-col justify-center px-2 md:px-10 py-4 w-full h-full"
