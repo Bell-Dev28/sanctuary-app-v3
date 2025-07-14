@@ -1,95 +1,42 @@
+// src/app/(auth)/login/page.tsx
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
-import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { MessageSquare } from 'lucide-react';
+import { useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function LoginPage() {
-  const { user, signInWithEmail } = useAuth();
-  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [sent, setSent] = useState(false);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (user) {
-      router.replace(`/home`); // Redirect to a home page after login
-    }
-  }, [user, router]);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const { error } = await signInWithEmail(email, password);
-      if (error) throw error;
-      toast.success('Signed in successfully!');
-      router.replace(`/home`);
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'An unexpected error occurred';
-      toast.error(message);
-    } finally {
-      setLoading(false);
-    }
+  const handleLogin = async () => {
+    const { error } = await supabase.auth.signInWithOtp({ email });
+    if (!error) setSent(true);
   };
 
   return (
-    <main className="flex items-center justify-center h-screen">
-      <div className="w-full max-w-md p-8 md:p-10 space-y-8 bg-card rounded-2xl shadow-2xl border border-border">
-        <div className="text-center">
-          <div className="inline-flex items-center justify-center mb-4">
-              <MessageSquare className="h-10 w-10 text-primary" />
-          </div>
-          <h1 className="text-4xl font-serif font-bold text-foreground">
-            Sanctuary
-          </h1>
-          <p className="text-muted-foreground mt-2">
-            A private space for connection.
-          </p>
-        </div>
-        
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-4">
-              <div>
-                  <label htmlFor="email" className="sr-only">Email</label>
-                  <Input
-                      id="email"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Email Address"
-                      required
-                      className="h-12 bg-input text-base"
-                  />
-              </div>
-              <div>
-                  <label htmlFor="password" className="sr-only">Password</label>
-                  <Input
-                      id="password"
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Password"
-                      required
-                      className="h-12 bg-input text-base"
-                  />
-              </div>
-          </div>
-          <Button
-            type="submit"
-            disabled={loading}
-            className="w-full font-bold tracking-wide text-card-foreground"
-            size="lg"
-          >
-            {loading ? 'Signing In…' : 'Secure Sign In'}
-          </Button>
-        </form>
+    <div className="min-h-screen flex flex-col items-center justify-center p-6">
+      <div className="max-w-sm w-full bg-white rounded shadow p-6 space-y-4">
+        <h1 className="text-2xl font-bold">Sign In</h1>
+        {sent ? (
+          <p className="text-sm text-green-600">Check your email to complete login.</p>
+        ) : (
+          <>
+            <input
+              type="email"
+              placeholder="you@example.com"
+              className="w-full border px-4 py-2 rounded"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <button
+              onClick={handleLogin}
+              className="bg-blue-600 text-white px-4 py-2 rounded w-full hover:bg-blue-700"
+            >
+              Send Magic Link
+            </button>
+          </>
+        )}
       </div>
-    </main>
+    </div>
   );
 }
