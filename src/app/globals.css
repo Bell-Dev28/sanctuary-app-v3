@@ -4,29 +4,38 @@
 
 @layer base {
   :root {
-    --background: 222 47% 11%; /* Deep Slate */
-    --foreground: 210 40% 98%; /* Soft White */
-    --card: 222 47% 14%;
+    --background: 215 30% 9%;      /* Very Dark Desaturated Blue */
+    --foreground: 210 40% 98%;    /* Soft White */
+
+    --card: 215 30% 12%;           /* Slightly Lighter Card Background */
     --card-foreground: 210 40% 98%;
-    --popover: 222 47% 11%;
+ 
+    --popover: 215 30% 9%;
     --popover-foreground: 210 40% 98%;
-    --primary: 38 92% 50%; /* Rich Amber */
-    --primary-foreground: 222 47% 11%;
-    --secondary: 217 33% 17%;
+ 
+    --primary: 170 84% 40%;        /* Muted Glowing Teal */
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 215 30% 15%;      /* Darker Slate */
     --secondary-foreground: 210 40% 98%;
-    --muted: 217 33% 17%;
+ 
+    --muted: 215 30% 15%;
     --muted-foreground: 215 20% 65%;
-    --accent: 217 33% 17%;
+ 
+    --accent: 215 30% 15%;
     --accent-foreground: 210 40% 98%;
+ 
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217 33% 25%;
-    --input: 217 33% 25%;
-    --ring: 38 92% 50%;
-    --radius: 0.5rem;
+
+    --border: 215 30% 20%;         /* Soft Border */
+    --input: 215 30% 20%;
+    --ring: 170 84% 40%;           /* Teal Ring for focus */
+ 
+    --radius: 0.75rem;
   }
 }
-
+ 
 @layer base {
   body {
     @apply bg-background text-foreground;
