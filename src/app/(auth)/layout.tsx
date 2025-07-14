@@ -7,7 +7,7 @@ export default function AuthLayout({
 }) {
   return (
     <AuthProvider>
-      <div className="flex items-center justify-center h-full bg-secondary">
+      <div className="flex items-center justify-center h-full bg-background">
         {children}
       </div>
     </AuthProvider>

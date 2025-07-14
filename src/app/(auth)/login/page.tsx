@@ -6,11 +6,11 @@ import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { MessageSquare } from 'lucide-react';
 
 export default function LoginPage() {
   const { user, signInWithEmail } = useAuth();
   const router = useRouter();
-  // const defaultTopicSlug = 'the-unspoken'; // <-- DELETE THIS LINE
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -37,48 +37,54 @@ export default function LoginPage() {
     }
   };
 
-  // ... rest of your return statement
   return (
-    <div className="w-full max-w-sm p-8 space-y-6 bg-card rounded-lg shadow-md">
+    <div className="w-full max-w-md p-8 md:p-10 space-y-8 bg-card rounded-2xl shadow-2xl">
       <div className="text-center">
-        <h1 className="text-3xl font-serif font-bold">
-          Welcome to Sanctuary
+        <div className="inline-flex items-center justify-center mb-4">
+            <MessageSquare className="h-10 w-10 text-primary" />
+        </div>
+        <h1 className="text-4xl font-serif font-bold text-foreground">
+          Sanctuary
         </h1>
         <p className="text-muted-foreground mt-2">
-          Sign in to continue
+          A private space for connection.
         </p>
       </div>
       
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-            <label htmlFor="email" className="sr-only">Email</label>
-            <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                required
-            />
-        </div>
-        <div>
-            <label htmlFor="password" className="sr-only">Password</label>
-            <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                required
-            />
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="space-y-4">
+            <div>
+                <label htmlFor="email" className="sr-only">Email</label>
+                <Input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email Address"
+                    required
+                    className="h-12"
+                />
+            </div>
+            <div>
+                <label htmlFor="password" className="sr-only">Password</label>
+                <Input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Password"
+                    required
+                    className="h-12"
+                />
+            </div>
         </div>
         <Button
           type="submit"
           disabled={loading}
-          className="w-full"
+          className="w-full font-bold tracking-wide"
           size="lg"
         >
-          {loading ? 'Signing in…' : 'Sign In'}
+          {loading ? 'Signing In…' : 'Secure Sign In'}
         </Button>
       </form>
     </div>
