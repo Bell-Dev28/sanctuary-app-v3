@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Lora } from "next/font/google";
-import "./globals.css"; // This is the crucial import that was missing
+import "./globals.css"; // This line imports all your app's styling
 
-// Font setup from our initial implementation
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
