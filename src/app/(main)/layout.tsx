@@ -1,5 +1,5 @@
+import { AuthProvider } from "@/context/AuthContext";
 import { SideNav } from "./home/_components/side-nav";
-import { AuthProvider } from "@/providers/auth-provider";
 import { PageTransition } from "@/components/shared/PageTransition";
 
 export default function MainLayout({
@@ -8,6 +8,7 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
+    // Wrap the entire layout with the AuthProvider
     <AuthProvider>
       <div className="flex h-full bg-background">
         <SideNav />

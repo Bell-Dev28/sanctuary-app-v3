@@ -25,30 +25,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/profile": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "Next-Action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/profile",
-      "dataRoute": "/profile.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/login": {
       "experimentalBypassFor": [
         {
@@ -73,7 +49,7 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/journal": {
+    "/profile": {
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -86,8 +62,56 @@
         }
       ],
       "initialRevalidateSeconds": false,
-      "srcRoute": "/journal",
-      "dataRoute": "/journal.rsc",
+      "srcRoute": "/profile",
+      "dataRoute": "/profile.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/home": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "Next-Action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/home",
+      "dataRoute": "/home.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/playbooks": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "Next-Action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/playbooks",
+      "dataRoute": "/playbooks.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -101,8 +125,8 @@
   "dynamicRoutes": {},
   "notFoundRoutes": [],
   "preview": {
-    "previewModeId": "f7d4268627fc18b1d686ef0ad00fd5c8",
-    "previewModeSigningKey": "289a7282fc2a02b37b307077eacdf2c11eb1991aa48212d21ee9c4df90df9be1",
-    "previewModeEncryptionKey": "c9a3b600f95f0b73e97edd963012c576be6c7c43a9d60b5704f4dc587ae70d44"
+    "previewModeId": "48461b45bdc70a6e54f866887ed139cf",
+    "previewModeSigningKey": "6715e28a1bf5ca906bd96616ec54d966ba6611b4572997bf6a05a963d88152ff",
+    "previewModeEncryptionKey": "ac23f728c02898b5561ffdee4c57f6547c250878eb7472ee04ccf81e78acf0ac"
   }
 }

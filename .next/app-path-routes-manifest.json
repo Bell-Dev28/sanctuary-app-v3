@@ -1,8 +1,10 @@
 {
-  "/journal/page": "/journal",
   "/_not-found/page": "/_not-found",
-  "/login/page": "/login",
   "/page": "/",
-  "/studio/[journalTile]/page": "/studio/[journalTile]",
-  "/profile/page": "/profile"
+  "/(main)/home/page": "/home",
+  "/(main)/profile/page": "/profile",
+  "/(main)/playbooks/page": "/playbooks",
+  "/(main)/sanctuary/[journalId]/page": "/sanctuary/[journalId]",
+  "/(main)/studio/[topicId]/page": "/studio/[topicId]",
+  "/(auth)/login/page": "/login"
 }

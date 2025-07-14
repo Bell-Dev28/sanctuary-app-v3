@@ -1,8 +1,10 @@
 {
-  "/journal/page": "app/journal/page.js",
   "/_not-found/page": "app/_not-found/page.js",
-  "/login/page": "app/login/page.js",
   "/page": "app/page.js",
-  "/studio/[journalTile]/page": "app/studio/[journalTile]/page.js",
-  "/profile/page": "app/profile/page.js"
+  "/(main)/home/page": "app/(main)/home/page.js",
+  "/(main)/profile/page": "app/(main)/profile/page.js",
+  "/(main)/playbooks/page": "app/(main)/playbooks/page.js",
+  "/(main)/sanctuary/[journalId]/page": "app/(main)/sanctuary/[journalId]/page.js",
+  "/(main)/studio/[topicId]/page": "app/(main)/studio/[topicId]/page.js",
+  "/(auth)/login/page": "app/(auth)/login/page.js"
 }

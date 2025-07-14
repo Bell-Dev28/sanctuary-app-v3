@@ -15,12 +15,20 @@
   "headers": [],
   "dynamicRoutes": [
     {
-      "page": "/studio/[journalTile]",
+      "page": "/sanctuary/[journalId]",
+      "regex": "^/sanctuary/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPjournalId": "nxtPjournalId"
+      },
+      "namedRegex": "^/sanctuary/(?<nxtPjournalId>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/studio/[topicId]",
       "regex": "^/studio/([^/]+?)(?:/)?$",
       "routeKeys": {
-        "nxtPjournalTile": "nxtPjournalTile"
+        "nxtPtopicId": "nxtPtopicId"
       },
-      "namedRegex": "^/studio/(?<nxtPjournalTile>[^/]+?)(?:/)?$"
+      "namedRegex": "^/studio/(?<nxtPtopicId>[^/]+?)(?:/)?$"
     }
   ],
   "staticRoutes": [
@@ -37,16 +45,22 @@
       "namedRegex": "^/_not\\-found(?:/)?$"
     },
     {
-      "page": "/journal",
-      "regex": "^/journal(?:/)?$",
+      "page": "/home",
+      "regex": "^/home(?:/)?$",
       "routeKeys": {},
-      "namedRegex": "^/journal(?:/)?$"
+      "namedRegex": "^/home(?:/)?$"
     },
     {
       "page": "/login",
       "regex": "^/login(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/login(?:/)?$"
+    },
+    {
+      "page": "/playbooks",
+      "regex": "^/playbooks(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/playbooks(?:/)?$"
     },
     {
       "page": "/profile",
