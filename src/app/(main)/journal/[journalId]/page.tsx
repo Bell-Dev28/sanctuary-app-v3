@@ -1,11 +1,13 @@
 import { createServerSupabaseClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 
-export default async function Page({
-  params,
-}: {
-  params: { journalId: string };
-}) {
+interface PageProps {
+  params: {
+    journalId: string;
+  };
+}
+
+export default async function Page({ params }: PageProps) {
   const supabase = createServerSupabaseClient();
   const {
     data: { user },
