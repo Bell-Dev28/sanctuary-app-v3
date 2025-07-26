@@ -1,57 +1,51 @@
-// src/app/(main)/playbooks/page.tsx
-"use client";
+import { createServerSupabaseClient } from '@/utils/supabase/server';
+import Card from '@/components/playbooks/Card';
+import TagFilterBar from '@/components/playbooks/TagFilterBar';
+import { redirect } from 'next/navigation';
 
-import { useEffect, useState } from "react";
-import PlaybookCard from "../playbooks/_components/playbookcard";
-import { fetchPlaybooks, Playbook } from "@/lib/playbookService";
-import PageTransition from "@/components/shared/PageTransition";
-import Skeleton from "@/components/shared/skeleton";
-import { motion } from "framer-motion";
+export default async function Page({ searchParams }: { searchParams: { tag?: string } }) {
+  const supabase = await createServerSupabaseClient();
 
-export default function PlaybooksPage() {
-  const [playbooks, setPlaybooks] = useState<Playbook[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  useEffect(() => {
-    fetchPlaybooks("relationship").then((data) => {
-      setPlaybooks(data);
-      setIsLoading(false);
-    });
-  }, []);
+  if (!user) {
+    redirect('/login');
+  }
+
+  const { data: playbooks, error } = await supabase
+    .from('playbooks')
+    .select('*')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false });
+
+  if (error || !playbooks) {
+    return <div className="p-6">Error loading playbooks.</div>;
+  }
+
+  const allTags = Array.from(new Set(playbooks.flatMap((p) => p.tags || []))).sort();
+  const activeTag = searchParams.tag;
+
+  const filtered = activeTag
+    ? playbooks.filter((p) => p.tags?.includes(activeTag))
+    : playbooks;
 
   return (
-    <PageTransition>
-      <h1 className="text-3xl font-bold mb-8">📖 Playbooks Archive</h1>
+    <div className="p-6 max-w-4xl mx-auto space-y-6">
+      <h1 className="text-2xl font-bold">Your Playbooks</h1>
 
-      <div className="space-y-10">
-        <div>
-          <h2 className="text-xl font-semibold mb-4">The Relationship Log</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {isLoading
-              ? [...Array(2)].map((_, idx) => (
-                  <div key={idx} className="space-y-2">
-                    <Skeleton className="h-4 w-1/2" />
-                    <Skeleton className="h-5 w-full" />
-                    <Skeleton className="h-4 w-3/4" />
-                  </div>
-                ))
-              : playbooks.map((pb, idx) => (
-                  <motion.div
-                    key={pb.id}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.05 }}
-                  >
-                    <PlaybookCard
-                      title={pb.title}
-                      content={pb.content}
-                      journal="The Relationship Log"
-                    />
-                  </motion.div>
-                ))}
-          </div>
-        </div>
+      <TagFilterBar tags={allTags} activeTag={activeTag} />
+
+      <div className="grid md:grid-cols-2 gap-4">
+        {filtered.length ? (
+          filtered.map((playbook) => (
+            <Card key={playbook.id} playbook={playbook} />
+          ))
+        ) : (
+          <div className="text-muted-foreground">No playbooks found.</div>
+        )}
       </div>
-    </PageTransition>
+    </div>
   );
 }

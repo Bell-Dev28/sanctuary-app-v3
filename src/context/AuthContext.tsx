@@ -1,41 +1,33 @@
-"use client";
+'use client';
 
-import { createContext, useContext, useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
-import { Session, User } from "@supabase/supabase-js";
+import { createContext, useContext, useState } from 'react';
+import { createBrowserClient } from '@supabase/ssr';
+import type { SupabaseClient } from '@supabase/supabase-js';
+import type { Database } from '@/types/supabase';
 
-type AuthContextType = {
-  user: User | null;
-  session: Session | null;
+type SupabaseContextType = {
+  supabase: SupabaseClient<Database>;
 };
 
-const AuthContext = createContext<AuthContextType>({ user: null, session: null });
+const AuthContext = createContext<SupabaseContextType | undefined>(undefined);
 
-export const useAuth = () => useContext(AuthContext);
-
-export default function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [session, setSession] = useState<Session | null>(null);
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      setUser(data.session?.user ?? null);
-    });
-
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, newSession) => {
-      setSession(newSession);
-      setUser(newSession?.user ?? null);
-    });
-
-    return () => {
-      listener.subscription.unsubscribe();
-    };
-  }, []);
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [supabase] = useState(() =>
+    createBrowserClient<Database>(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON!
+    )
+  );
 
   return (
-    <AuthContext.Provider value={{ user, session }}>
+    <AuthContext.Provider value={{ supabase }}>
       {children}
     </AuthContext.Provider>
   );
+}
+
+export function useSupabase() {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error('useSupabase must be used within AuthProvider');
+  return context;
 }

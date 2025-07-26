@@ -1,20 +1,20 @@
 {
-  "name": "Sanctuary",
+  "name": "Sanctuary App",
   "short_name": "Sanctuary",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#3b82f6",
+  "description": "Reflective journaling meets AI collaboration.",
   "icons": [
     {
       "src": "/icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "sizes": "192x192"
     },
     {
       "src": "/icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ]
 }

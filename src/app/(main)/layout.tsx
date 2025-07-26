@@ -1,6 +1,20 @@
-// src/app/(main)/layout.tsx
-import PageTransition from "@/components/shared/PageTransition";
+import { SideNav } from "../../components/shared/SideNav";
+import { PageTransition } from "@/components/shared/PageTransition";
 
-export default function MainLayout({ children }: { children: React.ReactNode }) {
-  return <PageTransition>{children}</PageTransition>;
+// No provider needed here anymore, as it's in the root layout.
+export default function MainLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex h-screen bg-background">
+      <SideNav />
+      <main className="flex-1 h-full overflow-y-auto">
+        <PageTransition>
+          {children}
+        </PageTransition>
+      </main>
+    </div>
+  );
 }

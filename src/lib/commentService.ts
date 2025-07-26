@@ -1,5 +1,5 @@
 // src/lib/commentService.ts
-import { supabase } from './supabaseClient';
+import { supabase } from './supabase/supabaseClient';
 import { encrypt, decrypt } from './encryptionService';
 import type { Database } from './database';
 

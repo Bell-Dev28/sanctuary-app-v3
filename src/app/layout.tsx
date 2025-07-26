@@ -1,17 +1,20 @@
 // src/app/layout.tsx
-import "@/app/globals.css";
-import LayoutClient from "./layoutclient";
+import './globals.css';
+import { ReactNode } from 'react';
+import { ThemeProvider } from '@/providers/ThemeProvider';
 
 export const metadata = {
-  title: "Sanctuary App",
-  description: "A deeply personal and collaborative journaling experience",
+  title: 'Sanctuary App',
+  description: 'Reflective journaling meets AI collaboration.',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        <LayoutClient>{children}</LayoutClient>
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

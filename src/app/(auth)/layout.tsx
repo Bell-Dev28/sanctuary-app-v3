@@ -1,4 +1,4 @@
-// No provider needed here anymore, as it's in the root layout.
+// src/app/(auth)/layout.tsx
 export default function AuthLayout({
   children,
 }: {

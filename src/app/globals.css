@@ -1,14 +1,30 @@
+/* 1) pull in Tailwind’s base, components & utilities */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  html {
-    font-family: 'Inter', sans-serif;
-    scroll-behavior: smooth;
-  }
+/* 2) define your “design tokens” (so bg-background, etc. work) */
+:root {
+  --background: #fafafa;
+  --foreground: #111111;
+  --muted: #e5e7eb;
+  --muted-foreground: #6b7280;
+  --border: #d1d5db;
+  --card: #ffffff;
+  --card-foreground: #000000;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+}
 
-  body {
-    @apply bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 ease-in-out;
-  }
+.dark {
+  /* override for dark mode */
+  --background: #1f2937;
+  --foreground: #f9fafb;
+  --muted: #374151;
+  --muted-foreground: #9ca3af;
+  --border: #4b5563;
+  --card: #111827;
+  --card-foreground: #f3f4f6;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
 }

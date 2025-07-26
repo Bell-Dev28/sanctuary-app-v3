@@ -1,51 +1,19 @@
-import { JournalBook } from "./_components/journal-book";
+import { createServerSupabaseClient } from '@/utils/supabase/server';
+import { redirect } from 'next/navigation';
+import { getEntries } from '@/lib/actions/journals/Entries';
 
-const journals = [
-  {
-    id: "unspoken",
-    title: "The Unspoken",
-    description: "For thoughts and feelings left unsaid.",
-    color: "border-sky-500/50",
-  },
-  {
-    id: "peacemakers",
-    title: "The Peacemaker's Playbook",
-    description: "Resolving conflicts and finding harmony.",
-    color: "border-emerald-500/50",
-  },
-  {
-    id: "dreams",
-    title: "The Dream Journal",
-    description: "Sharing our aspirations and futures.",
-    color: "border-indigo-500/50",
-  },
-];
+export default async function HomePage() {
+  const supabase = await createServerSupabaseClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
-export default function HomePage() {
-  const userName = "Aaron"; // This would come from your auth context
+  if (!user) redirect('/login');
+
+  const entries = await getEntries('default-journal-id'); // Replace with actual journal ID context
 
   return (
-    <div className="h-full p-6 md:p-10">
-      <div className="mb-8">
-        <h1 className="text-4xl font-serif font-bold tracking-tight">
-          Welcome back, {userName}.
-        </h1>
-        <p className="text-muted-foreground mt-2">
-          Your Shared Library awaits. Choose a journal to continue your story.
-        </p>
-      </div>
-
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {journals.map((journal) => (
-          <JournalBook
-            key={journal.id}
-            id={journal.id}
-            title={journal.title}
-            description={journal.description}
-            color={journal.color}
-          />
-        ))}
-      </div>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold">Welcome to Your Journal</h1>
+      <pre>{JSON.stringify(entries, null, 2)}</pre>
     </div>
   );
 }
