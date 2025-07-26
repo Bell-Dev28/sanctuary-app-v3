@@ -2,11 +2,11 @@
   "/_not-found/page": "app/_not-found/page.js",
   "/page": "app/page.js",
   "/(main)/favourites/page": "app/(main)/favourites/page.js",
-  "/(main)/journal/[journalId]/page": "app/(main)/journal/[journalId]/page.js",
-  "/(main)/home/page": "app/(main)/home/page.js",
-  "/(auth)/login/page": "app/(auth)/login/page.js",
-  "/(main)/playbooks/edit/[playbookId]/page": "app/(main)/playbooks/edit/[playbookId]/page.js",
   "/(main)/profile/page": "app/(main)/profile/page.js",
   "/(main)/playbooks/page": "app/(main)/playbooks/page.js",
-  "/(main)/studio/[topicId]/page": "app/(main)/studio/[topicId]/page.js"
+  "/(main)/home/page": "app/(main)/home/page.js",
+  "/(main)/journal/[journalId]/page": "app/(main)/journal/[journalId]/page.js",
+  "/(main)/studio/[topicId]/page": "app/(main)/studio/[topicId]/page.js",
+  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(main)/playbooks/edit/[playbookId]/page": "app/(main)/playbooks/edit/[playbookId]/page.js"
 }

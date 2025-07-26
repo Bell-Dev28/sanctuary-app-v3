@@ -1,13 +1,9 @@
+// src/app/(main)/journal/[journalId]/page.tsx
+
 import { createServerSupabaseClient } from '@/utils/supabase/server';
 import { notFound } from 'next/navigation';
 
-interface PageProps {
-  params: {
-    journalId: string;
-  };
-}
-
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: { params: { journalId: string } }) {
   const supabase = createServerSupabaseClient();
   const {
     data: { user },
@@ -21,7 +17,13 @@ export default async function Page({ params }: PageProps) {
     .eq('journal_id', params.journalId)
     .order('created_at', { ascending: true });
 
-  if (error || !journal) return <div>Error loading journal.</div>;
+  if (error || !journal) {
+    return (
+      <div className="p-6 max-w-3xl mx-auto text-red-500">
+        Error loading journal.
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 max-w-3xl mx-auto space-y-4">
