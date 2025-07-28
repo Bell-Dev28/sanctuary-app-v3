@@ -1,4 +1,9 @@
-# Dependencies
-/node_modules
-/.next
-.vercel
+node_modules
+.next
+.env.local
+out
+dist
+.DS_Store
+.vscode
+*.log
+coverage

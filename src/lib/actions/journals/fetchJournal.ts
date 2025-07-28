@@ -1,35 +1,17 @@
-// src/lib/actions/journals/fetchJournal.ts
-"use server";
+'use server';
 
-import { createServerSupabaseClient } from "@/utils/supabase/server";
+import { getSupabaseServer } from '@/utils/supabase/server';
 
-export async function fetchJournalById(journalId: number) {
-  const supabase = createServerSupabaseClient();
-
+export async function fetchJournalById(journalId: string) {
+  const supabase = getSupabaseServer();
   const { data, error } = await supabase
-    .from("journals")
-    .select(
-      `
-      id,
-      created_at,
-      title,
-      intention,
-      user_id,
-      journal_entries (
-        id,
-        created_at,
-        topic,
-        content,
-        is_shared
-      )
-    `
-    )
-    .eq("id", journalId)
+    .from('journals')
+    .select('*')
+    .eq('id', journalId)
     .single();
 
   if (error) {
-    console.error("Error fetching journal:", error.message);
-    return null;
+    throw new Error('Failed to fetch journal');
   }
 
   return data;

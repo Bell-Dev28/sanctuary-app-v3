@@ -1,33 +1,51 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
-import { createBrowserClient } from '@supabase/ssr';
-import type { SupabaseClient } from '@supabase/supabase-js';
-import type { Database } from '@/types/supabase';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createClient } from '@/utils/supabase/client';
+import { Session, User } from '@supabase/supabase-js';
 
-type SupabaseContextType = {
-  supabase: SupabaseClient<Database>;
-};
+interface AuthContextType {
+  user: User | null;
+  session: Session | null;
+}
 
-const AuthContext = createContext<SupabaseContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [supabase] = useState(() =>
-    createBrowserClient<Database>(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON!
-    )
-  );
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const supabase = createClient();
+  const [session, setSession] = useState<Session | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      setSession(data.session);
+      setUser(data.session?.user ?? null);
+    };
+
+    fetchSession();
+
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+    });
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, [supabase.auth]);
 
   return (
-    <AuthContext.Provider value={{ supabase }}>
+    <AuthContext.Provider value={{ user, session }}>
       {children}
     </AuthContext.Provider>
   );
-}
+};
 
-export function useSupabase() {
+export const useUser = () => {
   const context = useContext(AuthContext);
-  if (!context) throw new Error('useSupabase must be used within AuthProvider');
+  if (context === undefined) {
+    throw new Error('useUser must be used within an AuthProvider');
+  }
   return context;
-}
+};

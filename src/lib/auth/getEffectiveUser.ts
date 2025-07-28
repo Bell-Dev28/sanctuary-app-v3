@@ -1,12 +1,7 @@
-// src/lib/auth/getEffectiveUser.ts
-import { User } from '@supabase/supabase-js';
+import { getSupabaseServer } from '@/utils/supabase/server';
 
-let impersonatedUser: User | null = null;
-
-export const getEffectiveUser = (realUser: User | null): User | null => {
-  return impersonatedUser || realUser;
-};
-
-export const setImpersonatedUser = (user: User | null) => {
-  impersonatedUser = user;
-};
+export async function getEffectiveUser() {
+  const supabase = getSupabaseServer();
+  const { data: { session } } = await supabase.auth.getSession();
+  return session?.user;
+}

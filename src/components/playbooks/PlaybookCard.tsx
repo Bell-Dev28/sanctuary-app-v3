@@ -1,76 +1,29 @@
-/* components/playbooks/PlaybookCard.tsx */
-'use client';
-
-import { Pencil, Trash } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { toggleReaction } from '@/lib/actions/reactions';
+import { Badge } from '@/components/ui/Badge';
 
 interface PlaybookCardProps {
-  playbook: {
-    id: number;
-    title: string;
-    content: string;
-    tags?: string[];
-    favorited?: boolean;
-  };
+  title: string;
+  content: string;
+  favoritedBy: { me: boolean; partner: boolean };
+  onFavorite: () => void;
 }
 
-export function PlaybookCard({ playbook }: PlaybookCardProps) {
-  const router = useRouter();
-
-  const handleDelete = async () => {
-    if (confirm('Delete this playbook?')) {
-      // implement your delete logic
-    }
-  };
-
-  const handleReact = async (emoji: string) => {
-    await toggleReaction(playbook.id, emoji);
-    router.refresh();
-  };
-
+export default function PlaybookCard({ title, content, favoritedBy, onFavorite }: PlaybookCardProps) {
   return (
-    <div className="border rounded-md p-4 bg-background relative shadow-sm">
-      <div className="absolute top-2 right-2 flex gap-2">
-        <button
-          onClick={() => router.push(`/playbooks/edit/${playbook.id}`)}
-          className="p-1 rounded hover:bg-muted"
-        >
-          <Pencil className="w-4 h-4 text-muted-foreground" />
-        </button>
-        <button onClick={handleDelete} className="p-1 rounded hover:bg-muted">
-          <Trash className="w-4 h-4 text-destructive" />
-        </button>
-      </div>
-
-      <h3 className="text-lg font-semibold">{playbook.title}</h3>
-      <p className="text-sm text-muted-foreground mt-1 whitespace-pre-wrap">
-        {playbook.content}
-      </p>
-
-      {playbook.tags?.length > 0 && (
-        <div className="flex flex-wrap gap-2 mt-2">
-          {playbook.tags.map((tag) => (
-            <span
-              key={tag}
-              className="text-xs px-2 py-1 bg-muted text-muted-foreground rounded-full"
-            >
-              #{tag}
-            </span>
-          ))}
+    <div className="border p-4 rounded-lg shadow-sm mb-4">
+      <div className="flex justify-between items-center mb-2">
+        <h3 className="text-lg font-semibold">{title}</h3>
+        <div>
+          <span
+            className={favoritedBy.me ? 'text-red-500' : 'text-gray-400'}
+            onClick={onFavorite}
+            role="button"
+          >❤️</span>
+          <span className={favoritedBy.partner ? 'text-blue-500 ml-2' : 'text-gray-400 ml-2'}>❤️</span>
         </div>
-      )}
-
-      <div className="flex gap-2 mt-3">
-        {['❤️', '🔥'].map((emoji) => (
-          <button
-            key={emoji}
-            onClick={() => handleReact(emoji)}
-            className="text-xl hover:scale-110 transition"
-          >
-            {emoji}
-          </button>
-        ))}
+      </div>
+      <p className="text-sm whitespace-pre-line">{content}</p>
+      <div className="mt-2">
+        <Badge>Playbook</Badge>
       </div>
     </div>
   );

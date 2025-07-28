@@ -1,19 +1,8 @@
-import { createServerSupabaseClient } from '@/utils/supabase/server';
-import { redirect } from 'next/navigation';
-import { getEntries } from '@/lib/actions/journals/Entries';
-
-export default async function HomePage() {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  if (!user) redirect('/login');
-
-  const entries = await getEntries('default-journal-id'); // Replace with actual journal ID context
-
+export default function HomePage() {
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold">Welcome to Your Journal</h1>
-      <pre>{JSON.stringify(entries, null, 2)}</pre>
-    </div>
+    <main className="p-4">
+      <h1 className="text-2xl font-bold">Welcome Back</h1>
+      <p className="mt-2 text-gray-600">This is your home dashboard.</p>
+    </main>
   );
 }

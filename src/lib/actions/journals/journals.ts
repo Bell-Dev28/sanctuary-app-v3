@@ -1,10 +1,11 @@
-import { supabase } from '@/utils/supabase/client';
+import { getSupabaseServer } from '@/utils/supabase/server';
 
-export async function fetchJournalTitles(userId: string) {
+export async function getUserJournals(userId: string) {
+  const supabase = getSupabaseServer();
   const { data, error } = await supabase
     .from('journals')
-    .select('id, title')
+    .select('*')
     .eq('user_id', userId);
-  if (error) throw error;
+  if (error) throw new Error(error.message);
   return data;
 }

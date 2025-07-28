@@ -1,48 +1,19 @@
-// src/components/cards/EntryCard.tsx
-"use client";
+import { format } from 'date-fns';
 
-import { useState } from "react";
-import { format } from "date-fns";
-import EditEntryModal from "@/components/modals/entry/EditEntryModal";
-import { Button } from "@/components/ui/Button";
-
-interface Entry {
-  id: string;
-  content: string;
-  created_at: string;
+interface EntryCardProps {
+  entry: {
+    id: string;
+    content: string;
+    created_at: string;
+    author: string;
+  };
 }
 
-export function EntryCard({ entry }: { entry: Entry }) {
-  const [isEditing, setIsEditing] = useState(false);
-
+export default function EntryCard({ entry }: EntryCardProps) {
   return (
-    <>
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-200 dark:border-gray-700 transition-all hover:shadow-lg">
-        <div className="flex justify-between items-start">
-          <div className="text-sm text-gray-400">
-            {format(new Date(entry.created_at), "MMM d, yyyy - h:mm a")}
-          </div>
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => setIsEditing(true)}
-            className="text-xs"
-          >
-            Edit
-          </Button>
-        </div>
-        <p className="mt-2 whitespace-pre-line">{entry.content}</p>
-      </div>
-
-      {isEditing && (
-        <EditEntryModal 
-          entryId={Number(entry.id)} 
-          isOpen={isEditing} 
-          onClose={() => setIsEditing(false)}
-          initialContent={entry.content}
-          onSave={() => {}}
-        />
-      )}
-    </>
+    <div className="p-4 border rounded mb-2">
+      <p className="text-sm text-gray-600">{entry.author} — {format(new Date(entry.created_at), 'PPP')}</p>
+      <p>{entry.content}</p>
+    </div>
   );
 }

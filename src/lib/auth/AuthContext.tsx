@@ -1,52 +1,51 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase/supabaseClient';
-import { getEffectiveUser, setImpersonatedUser } from './getEffectiveUser';
-import { User } from '@supabase/supabase-js';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createClient } from '@/utils/supabase/client';
+import { Session, User } from '@supabase/supabase-js';
 
-type AuthContextType = {
+interface AuthContextType {
   user: User | null;
-  switchUser: (user: User | null) => void;
-};
+  session: Session | null;
+}
 
-const AuthContext = createContext<AuthContextType>({
-  user: null,
-  switchUser: () => {},
-});
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const supabase = createClient();
+  const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const getSession = async () => {
-      const { data } = await supabase.auth.getUser();
-      setUser(data?.user ?? null);
+    const fetchSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      setSession(data.session);
+      setUser(data.session?.user ?? null);
     };
 
-    getSession();
+    fetchSession();
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_, session) => {
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
       setUser(session?.user ?? null);
     });
 
     return () => {
-      subscription.unsubscribe();
+      listener.subscription.unsubscribe();
     };
-  }, []);
-
-  const switchUser = (overrideUser: User | null) => {
-    setImpersonatedUser(overrideUser);
-    setUser((prev) => (overrideUser ? overrideUser : prev));
-  };
+  }, [supabase.auth]);
 
   return (
-    <AuthContext.Provider value={{ user: getEffectiveUser(user), switchUser }}>
+    <AuthContext.Provider value={{ user, session }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useUser = () => useContext(AuthContext);
+export const useUser = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useUser must be used within an AuthProvider');
+  }
+  return context;
+};

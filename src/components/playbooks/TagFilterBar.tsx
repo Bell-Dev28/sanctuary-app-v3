@@ -1,41 +1,23 @@
-'use client';
+import React from 'react';
 
-import { useRouter, useSearchParams } from 'next/navigation';
-
-interface TagFilterBarProps {
+export interface TagFilterBarProps {
   tags: string[];
-  activeTag?: string;
+  activeTag: string | null;
 }
 
-export default function TagFilterBar({ tags, activeTag }: TagFilterBarProps) {
-  const router = useRouter();
-  const params = useSearchParams();
-
-  const handleTagClick = (tag: string) => {
-    const search = new URLSearchParams(Array.from(params.entries()));
-    if (search.get('tag') === tag) {
-      search.delete('tag');
-    } else {
-      search.set('tag', tag);
-    }
-    router.push(`?${search.toString()}`);
-  };
-
+export const TagFilterBar = ({ tags, activeTag }: TagFilterBarProps) => {
   return (
-    <div className="flex gap-2 flex-wrap mb-4">
+    <div className="flex gap-2 mb-4">
       {tags.map((tag) => (
         <button
           key={tag}
-          onClick={() => handleTagClick(tag)}
-          className={`px-3 py-1 text-sm rounded-full border ${
-            tag === activeTag
-              ? 'bg-blue-600 text-white'
-              : 'bg-muted text-muted-foreground hover:bg-blue-100 dark:hover:bg-blue-800'
-          }`}
+          className={`px-3 py-1 rounded-full border ${activeTag === tag ? 'bg-primary text-white' : 'bg-muted text-muted-foreground'}`}
         >
-          #{tag}
+          {tag}
         </button>
       ))}
     </div>
   );
-}
+};
+
+export default TagFilterBar;

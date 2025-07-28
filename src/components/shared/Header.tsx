@@ -1,11 +1,13 @@
-// Example partial layout header with avatar
-import { UserDropdown } from "@/components/shared/user/UserDropdown";
+'use client';
+
+import Link from 'next/link';
+import { ThemeToggle } from './user/ThemeToggle';
 
 export default function Header() {
   return (
-    <header className="flex justify-between items-center px-4 py-2 border-b bg-background">
-      <h1 className="text-lg font-bold tracking-tight">Sanctuary</h1>
-      <UserDropdown />
+    <header className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
+      <Link href="/" className="text-xl font-bold">Sanctuary</Link>
+      <ThemeToggle />
     </header>
   );
 }

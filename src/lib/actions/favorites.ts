@@ -1,20 +1,10 @@
-"use server";
+import { getSupabaseServer } from '@/utils/supabase/server';
 
-import { createServerSupabaseClient } from "@/utils/supabase/server";
-
-export async function fetchFavoritesByUser(userId: string) {
-  const supabase = await createServerSupabaseClient();
-
+export async function toggleFavorite(userId: string, itemId: string, type: 'journal' | 'playbook') {
+  const supabase = getSupabaseServer();
   const { data, error } = await supabase
-    .from("favorites")
-    .select("playbook_id, created_at") // or “*” if you need more fields
-    .eq("user_id", userId)
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error("Error fetching favorites:", error);
-    return [];
-  }
-
+    .from('favorites')
+    .upsert([{ user_id: userId, item_id: itemId, type }]);
+  if (error) throw new Error(error.message);
   return data;
 }

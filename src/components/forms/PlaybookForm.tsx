@@ -1,43 +1,33 @@
 'use client';
+
 import { useState } from 'react';
-import { insertPlaybook, updatePlaybook } from '@/lib/actions/playbooks';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
 
-interface Props {
-  initialData?: {
-    id: string;
-    title: string;
-    content: string;
-  };
-}
-
-export default function PlaybookForm({ initialData }: Props) {
-  const router = useRouter();
-  const [title, setTitle] = useState(initialData?.title || '');
-  const [content, setContent] = useState(initialData?.content || '');
-
-  const handleSubmit = async () => {
-    try {
-      if (initialData) {
-        await updatePlaybook(initialData.id, { title, content });
-        toast.success('Playbook updated!');
-      } else {
-        await insertPlaybook({ title, content });
-        toast.success('Playbook created!');
-      }
-      router.refresh();
-    } catch (err) {
-      toast.error('Something went wrong.');
-      console.error(err);
-    }
-  };
+export default function PlaybookForm({ onSave }: { onSave: (title: string, content: string) => void }) {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
 
   return (
-    <div>
-      <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" />
-      <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="Content" />
-      <button onClick={handleSubmit}>{initialData ? 'Update' : 'Create'} Playbook</button>
-    </div>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSave(title, content);
+      }}
+      className="space-y-2"
+    >
+      <input
+        type="text"
+        className="w-full border rounded p-2"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Playbook title"
+      />
+      <textarea
+        className="w-full border rounded p-2"
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+        placeholder="Playbook content"
+      />
+      <button className="px-4 py-2 bg-green-600 text-white rounded" type="submit">Save</button>
+    </form>
   );
 }

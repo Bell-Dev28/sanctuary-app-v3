@@ -1,15 +1,20 @@
-import { createServerSupabaseClient } from '@/utils/supabase/server';
+'use client';
 
-export default async function ProfilePage() {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
+import { useState } from 'react';
 
-  if (!user) return <p>Please log in.</p>;
+export default function ProfilePage() {
+  const [username, setUsername] = useState('Marie');
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold">Profile</h1>
-      <p>Email: {user.email}</p>
-    </div>
+    <main className="p-4 max-w-md mx-auto">
+      <h1 className="text-2xl font-semibold mb-4">Profile Settings</h1>
+      <label className="block mb-2 text-sm">Username</label>
+      <input
+        className="w-full border p-2 rounded mb-4"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <button className="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
+    </main>
   );
 }

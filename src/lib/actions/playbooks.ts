@@ -1,26 +1,11 @@
-import { supabase } from '@/utils/supabase/client';
+import { getSupabaseServer } from '@/utils/supabase/server';
 
-export async function insertPlaybook(playbook: {
-  title: string;
-  content: string;
-  journal_id?: string;
-}) {
+export async function getPlaybooks(userId: string) {
+  const supabase = getSupabaseServer();
   const { data, error } = await supabase
     .from('playbooks')
-    .insert(playbook)
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
-}
-
-export async function updatePlaybook(id: string, updates: { title?: string; content?: string }) {
-  const { data, error } = await supabase
-    .from('playbooks')
-    .update(updates)
-    .eq('id', id)
-    .select()
-    .single();
-  if (error) throw error;
+    .select('*')
+    .eq('user_id', userId);
+  if (error) throw new Error(error.message);
   return data;
 }

@@ -1,29 +1,17 @@
-import { createServerSupabaseClient } from '@/utils/supabase/server';
-import PlaybookForm from '@/components/forms/PlaybookForm';
-import { redirect } from 'next/navigation';
+import { Metadata } from 'next';
+import { fetchPlaybookById } from '@/lib/actions/playbooks/fetchPlaybook';
+import PlaybookEditor from '@/components/playbooks/PlaybookEditor';
 
-interface Props {
-  params: {
-    playbookId: string;
-  };
-}
+export const metadata: Metadata = {
+  title: 'Edit Playbook',
+};
 
-export default async function EditPlaybookPage({ params }: Props) {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
+export default async function Page({ params }: { params: { playbookId: string } }) {
+  const playbook = await fetchPlaybookById(params.playbookId);
 
-  if (!user) redirect('/login');
+  if (!playbook) {
+    return <div>Playbook not found.</div>;
+  }
 
-  const { data: playbook } = await supabase
-    .from('playbooks')
-    .select('*')
-    .eq('id', params.playbookId)
-    .single();
-
-  return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Edit Playbook</h1>
-      <PlaybookForm initialData={playbook} />
-    </div>
-  );
+  return <PlaybookEditor playbook={playbook} />;
 }

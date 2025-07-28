@@ -1,4 +1,3 @@
-// src/app/layout.tsx
 import './globals.css';
 import { ReactNode } from 'react';
 import { ThemeProvider } from '@/providers/ThemeProvider';
@@ -10,11 +9,9 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body>
-        <ThemeProvider>
-          {children}
-        </ThemeProvider>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

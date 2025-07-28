@@ -1,44 +1,42 @@
-import { Card, CardContent } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
-import type { Database } from "@/types/supabase";
+import { format } from 'date-fns';
 
-type Entry = Database["public"]["Tables"]["journal_entries"]["Row"];
-type Comment = Database["public"]["Tables"]["journal_comments"]["Row"];
-
-interface Props {
-  entry: Entry;
-  comments: Comment[];
+interface Comment {
+  id: number;
+  content: string;
+  author: string;
+  created_at: string;
 }
 
-export default function JournalEntryCard({ entry, comments }: Props) {
+interface JournalEntryCardProps {
+  entry: {
+    id: number;
+    content: string;
+    created_at: string;
+    author: string;
+    comments: Comment[];
+  };
+}
+
+export default function JournalEntryCard({ entry }: JournalEntryCardProps) {
   return (
-    <Card className="border shadow-sm">
-      <CardContent className="p-4 space-y-2">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-primary">
-            {entry.topic || "Untitled Entry"}
-          </h3>
-          {entry.is_shared && <Badge variant="outline">Shared</Badge>}
-        </div>
-        <p className="text-muted-foreground whitespace-pre-wrap">
-          {entry.content}
-        </p>
-        {comments.length > 0 && (
-          <div className="mt-4 space-y-1">
-            <h4 className="text-sm font-medium text-muted-foreground">
-              Comments:
-            </h4>
-            {comments.map((comment) => (
-              <div
-                key={comment.id}
-                className="text-sm text-muted-foreground pl-2 border-l"
-              >
-                {comment.comment_text}
-              </div>
+    <div className="border rounded p-4 mb-4 bg-white shadow">
+      <p className="text-sm text-gray-500 mb-1">
+        {entry.author} — {format(new Date(entry.created_at), 'PPP p')}
+      </p>
+      <p className="mb-2">{entry.content}</p>
+
+      {entry.comments.length > 0 && (
+        <div className="mt-3 border-t pt-2">
+          <p className="font-semibold text-sm mb-1 text-gray-700">Comments:</p>
+          <ul className="space-y-1 text-sm text-gray-600">
+            {entry.comments.map((comment) => (
+              <li key={comment.id}>
+                <span className="font-medium">{comment.author}:</span> {comment.content}
+              </li>
             ))}
-          </div>
-        )}
-      </CardContent>
-    </Card>
+          </ul>
+        </div>
+      )}
+    </div>
   );
 }

@@ -1,23 +1,20 @@
-// src/components/lists/CommentList.tsx
-import { formatDistanceToNow } from "date-fns";
+import React from "react";
 
 interface Comment {
   id: string;
-  content: string;
-  created_at: string;
+  text: string;
 }
 
-export function CommentList({ comments }: { comments: Comment[] }) {
+interface CommentListProps {
+  comments: Comment[];
+}
+
+export default function CommentList({ comments }: CommentListProps) {
   return (
-    <div className="mt-4 space-y-3 border-t pt-4">
+    <ul>
       {comments.map((c) => (
-        <div key={c.id} className="text-sm">
-          <div className="text-gray-400 text-xs mb-1">
-            {formatDistanceToNow(new Date(c.created_at), { addSuffix: true })}
-          </div>
-          <p className="whitespace-pre-line">{c.content}</p>
-        </div>
+        <li key={c.id}>{c.text}</li>
       ))}
-    </div>
+    </ul>
   );
 }

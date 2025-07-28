@@ -1,5 +1,5 @@
-export function AvatarSkeleton() {
+export default function AvatarSkeleton() {
   return (
-    <div className="h-10 w-10 rounded-full bg-muted animate-pulse" />
+    <div className="w-10 h-10 rounded-full bg-gray-300 animate-pulse" />
   );
 }
