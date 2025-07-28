@@ -1,5 +1,1 @@
-{
-  "node": {},
-  "edge": {},
-  "encryptionKey": "eGFFqmvprlG4hby8lHfTFmE718mI/C0J6Pj+XWk0dNg="
-}
+{"node":{"eb54c8d1d100e7935b060031d5e04674a3499cd6":{"workers":{"app/(main)/journal/[journalId]/page":"756"},"layer":{"app/(main)/journal/[journalId]/page":"rsc"}},"06cabdef78b63ee1c4ea75bcbad71235a9a26bf3":{"workers":{"app/(main)/journal/[journalId]/page":"756"},"layer":{"app/(main)/journal/[journalId]/page":"rsc"}},"5f0fc76d954bc6947000906d7037eaeba78f4fae":{"workers":{"app/(main)/journal/[journalId]/page":"756"},"layer":{"app/(main)/journal/[journalId]/page":"rsc"}},"76ab697e843ef33e51fa273fba3be7c2dd616712":{"workers":{"app/(main)/journal/[journalId]/page":"756"},"layer":{"app/(main)/journal/[journalId]/page":"rsc"}},"aa52dc0ed3b6d5e5efdd454ab83e4c49b5786854":{"workers":{"app/(main)/journal/[journalId]/page":"756"},"layer":{"app/(main)/journal/[journalId]/page":"rsc"}}},"edge":{},"encryptionKey":"VLYOCDg8U2+6gqGhdZB4R/67bWHdRy/f1xnAOSO+Q7A="}

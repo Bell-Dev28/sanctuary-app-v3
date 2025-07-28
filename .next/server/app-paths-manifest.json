@@ -1,4 +1,15 @@
 {
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/playbook/suggest/route": "app/api/playbook/suggest/route.js",
+  "/ai/page": "app/ai/page.js",
   "/page": "app/page.js",
-  "/(auth)/login/page": "app/(auth)/login/page.js"
+  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(main)/library/page": "app/(main)/library/page.js",
+  "/(main)/journal/[journalId]/page": "app/(main)/journal/[journalId]/page.js",
+  "/(main)/home/page": "app/(main)/home/page.js",
+  "/(main)/profile/page": "app/(main)/profile/page.js",
+  "/(main)/favourites/page": "app/(main)/favourites/page.js",
+  "/(main)/playbooks/page": "app/(main)/playbooks/page.js",
+  "/(main)/studio/[topicId]/page": "app/(main)/studio/[topicId]/page.js",
+  "/(main)/playbooks/edit/[playbookId]/page": "app/(main)/playbooks/edit/[playbookId]/page.js"
 }

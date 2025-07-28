@@ -1,3 +1,5 @@
+'use client';
+
 interface FavoriteCardProps {
   title: string;
   isFavorited: boolean;

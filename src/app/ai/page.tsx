@@ -9,8 +9,14 @@ export default function AIStudio() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!user) router.push('/login');
+    if (user === null) {
+      router.push('/login');
+    }
   }, [user, router]);
+
+  if (user === undefined) {
+    return <div className="p-6">Loading...</div>; // ✅ show while auth is resolving
+  }
 
   return (
     <div className="p-6">

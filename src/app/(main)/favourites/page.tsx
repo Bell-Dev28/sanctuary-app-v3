@@ -1,9 +1,11 @@
+'use client';
+
 import FavoriteCard from '@/components/favourites/FavoriteCard';
 
 export default function FavouritesPage() {
   const mockFavorites = [
     { title: 'Couples Retreat Plan', isFavorited: true },
-    { title: 'Healing Conflict Log', isFavorited: false }
+    { title: 'Healing Conflict Log', isFavorited: false },
   ];
 
   return (
@@ -15,7 +17,9 @@ export default function FavouritesPage() {
             key={i}
             title={item.title}
             isFavorited={item.isFavorited}
-            onToggle={() => {}}
+            onToggle={() => {
+              console.log(`Toggled: ${item.title}`);
+            }}
           />
         ))}
       </div>
