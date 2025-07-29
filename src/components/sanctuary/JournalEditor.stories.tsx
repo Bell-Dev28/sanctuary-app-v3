@@ -1,9 +1,10 @@
-import React from 'react';
 import JournalEditor from './JournalEditor';
 
-export default {
-  title: 'sanctuary/JournalEditor',
+const story = {
+  title: 'Sanctuary/JournalEditor',
   component: JournalEditor,
 };
+
+export default story;
 
 export const Default = () => <JournalEditor journalId={''} userId={''} />;

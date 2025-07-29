@@ -1,9 +1,10 @@
-import React from 'react';
 import CommentList from './CommentList';
 
-export default {
-  title: 'sanctuary/comments/CommentList',
+const story = {
+  title: 'Sanctuary/CommentList',
   component: CommentList,
 };
+
+export default story;
 
 export const Default = () => <CommentList comments={[]} />;

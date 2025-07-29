@@ -5,8 +5,9 @@ export default {
   component: IntentionModal,
 };
 
-export const Default = () => (
-  <IntentionModal
-    
-  />
-);
+export const Open = {
+  args: {
+    isOpen: true,
+    onClose: () => alert('Closed modal'),
+  },
+};

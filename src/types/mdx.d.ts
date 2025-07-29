@@ -1,4 +1,4 @@
 declare module '*.mdx' {
-  let MDXComponent: (props: any) => JSX.Element;
-  export default MDXComponent;
+  let MDXContent: (props: Record<string, unknown>) => JSX.Element;
+  export default MDXContent;
 }

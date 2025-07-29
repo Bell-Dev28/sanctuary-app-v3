@@ -1,9 +1,10 @@
-import React from 'react';
 import { Button } from './Button';
 
-export default {
-  title: 'ui/Button',
+const story = {
+  title: 'UI/Button',
   component: Button,
 };
 
-export const Default = () => <Button />;
+export default story;
+
+export const Default = () => <Button>Click Me</Button>;

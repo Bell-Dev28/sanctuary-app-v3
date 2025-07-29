@@ -1,9 +1,10 @@
-import React from 'react';
 import { Badge } from './Badge';
 
-export default {
-  title: 'ui/Badge',
+const story = {
+  title: 'UI/Badge',
   component: Badge,
 };
 
-export const Default = () => <Badge children={undefined} />;
+export default story;
+
+export const Default = () => <Badge>Tag</Badge>;

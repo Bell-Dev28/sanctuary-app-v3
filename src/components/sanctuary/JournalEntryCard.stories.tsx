@@ -1,15 +1,18 @@
-import React from 'react';
 import JournalEntryCard from './JournalEntryCard';
 
 export default {
-  title: 'sanctuary/JournalEntryCard',
+  title: 'Sanctuary/JournalEntryCard',
   component: JournalEntryCard,
 };
 
-export const Default = () => <JournalEntryCard entry={{
-  id: 0,
-  content: '',
-  created_at: '',
-  author: '',
-  comments: []
-}} />;
+export const Example = {
+  args: {
+    entry: {
+      id: 1,
+      content: 'This is a journal entry',
+      created_at: new Date().toISOString(),
+      author: 'John Doe',
+      comments: [],
+    },
+  },
+};

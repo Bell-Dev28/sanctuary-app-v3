@@ -1,9 +1,10 @@
-import React from 'react';
 import LayoutClient from './LayoutClient';
 
-export default {
-  title: 'shared/LayoutClient',
+const story = {
+  title: 'Shared/LayoutClient',
   component: LayoutClient,
 };
 
-export const Default = () => <LayoutClient children={undefined} />;
+export default story;
+
+export const Default = () => <LayoutClient><div>Content</div></LayoutClient>;

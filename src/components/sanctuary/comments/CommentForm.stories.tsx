@@ -1,12 +1,10 @@
 import CommentForm from './CommentForm';
 
-export default {
+const story = {
   title: 'Sanctuary/CommentForm',
   component: CommentForm,
 };
 
-export const Default = () => (
-  <CommentForm
-    onSubmit={(text) => console.log(text)}
-  />
-);
+export default story;
+
+export const Default = () => <CommentForm onSubmit={() => {}} />;

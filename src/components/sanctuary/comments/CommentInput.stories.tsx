@@ -1,9 +1,12 @@
-import React from 'react';
 import CommentInput from './CommentInput';
 
 export default {
-  title: 'sanctuary/comments/CommentInput',
+  title: 'Sanctuary/CommentInput',
   component: CommentInput,
 };
 
-export const Default = () => <CommentInput />;
+export const Default = {
+  args: {
+    onSubmit: (val: string) => alert(`Submitted: ${val}`),
+  },
+};

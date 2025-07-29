@@ -1,12 +1,13 @@
-import React from 'react';
 import PlaybookCard from './PlaybookCard';
 
-export default {
-  title: 'playbooks/PlaybookCard',
+const story = {
+  title: 'Playbooks/PlaybookCard',
   component: PlaybookCard,
 };
 
-export const Default = () => <PlaybookCard title={''} content={''} favoritedBy={{
+export default story;
+
+export const Default = () => <PlaybookCard title="AI Strategy" content={''} favoritedBy={{
   me: false,
   partner: false
 }} onFavorite={function (): void {

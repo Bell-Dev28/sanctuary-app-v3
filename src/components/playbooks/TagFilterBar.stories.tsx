@@ -1,9 +1,14 @@
-import React from 'react';
 import TagFilterBar from './TagFilterBar';
 
 export default {
-  title: 'playbooks/TagFilterBar',
+  title: 'Playbooks/TagFilterBar',
   component: TagFilterBar,
 };
 
-export const Default = () => <TagFilterBar tags={[]} activeTag={null} />;
+export const Default = {
+  args: {
+    tags: ['Spiritual', 'Relationship', 'Healing'],
+    selectedTag: 'Spiritual',
+    onSelectTag: (tag: string) => alert(`Selected tag: ${tag}`),
+  },
+};
