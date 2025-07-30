@@ -6,7 +6,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogClose,
 } from '@/components/ui/Dialog';
 
 type Props = {
@@ -47,4 +46,4 @@ export default function IntentionModal({ open, onClose, journalId }: Props) {
       </DialogContent>
     </Dialog>
   );
-}
+}         
