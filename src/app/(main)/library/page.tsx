@@ -1,18 +1,19 @@
-import JournalBook from '@/components/sanctuary/JournalBook';
+import MainLayout from '@/components/layout/MainLayout';
+import JournalBookCard from '@/components/sanctuary/JournalBookCard';
 
-type Journal = {
-  id: number;
-  title: string | null;
-};
+const mockBooks = [
+  { id: 1, title: 'The Relationship Log' },
+  { id: 2, title: 'Faith Journal' },
+];
 
-export default async function LibraryPage() {
-  const journals: Journal[] = []; // Replace with actual fetch logic
-
+export default function LibraryPage() {
   return (
-    <div className="p-6 grid grid-cols-2 gap-4">
-      {journals.map((j) => (
-        <JournalBook key={j.id} id={j.id} title={j.title ?? ''} />
-      ))}
-    </div>
+    <MainLayout>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {mockBooks.map(book => (
+          <JournalBookCard key={book.id} id={book.id} title={book.title} />
+        ))}
+      </div>
+    </MainLayout>
   );
 }

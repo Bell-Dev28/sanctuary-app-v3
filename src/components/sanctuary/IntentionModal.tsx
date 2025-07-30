@@ -1,38 +1,50 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogClose,
 } from '@/components/ui/Dialog';
-import { Button } from '@/components/ui/Button';
-import { useState } from 'react';
 
-export default function IntentionModal() {
-  const [isOpen, setIsOpen] = useState(false);
+type Props = {
+  open: boolean;
+  onClose: () => void;
+  journalId: number;
+};
+
+export default function IntentionModal({ open, onClose, journalId }: Props) {
+  const router = useRouter();
+
+  const handleNavigate = (type: 'explore' | 'view') => {
+    const path = type === 'explore' ? `/studio/${journalId}` : `/journal/${journalId}`;
+    router.push(path);
+    onClose();
+  };
 
   return (
-    <>
-      <Button onClick={() => setIsOpen(true)}>Set Intention</Button>
-
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Set Your Intention</DialogTitle>
-          </DialogHeader>
-          <p className="text-sm text-gray-600 mb-4">
-            Write something that guides your thoughts today.
-          </p>
-          <textarea
-            className="w-full p-2 border rounded min-h-[100px]"
-            placeholder="My intention today is..."
-          />
-          <div className="flex justify-end mt-4">
-            <Button onClick={() => setIsOpen(false)}>Close</Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-    </>
+    <Dialog open={open} onOpenChange={(val) => !val && onClose()}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>What would you like to do?</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-3">
+          <button
+            onClick={() => handleNavigate('explore')}
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            Explore with AI
+          </button>
+          <button
+            onClick={() => handleNavigate('view')}
+            className="w-full bg-gray-200 text-gray-800 py-2 px-4 rounded hover:bg-gray-300 transition focus:outline-none focus:ring-2 focus:ring-gray-400"
+          >
+            View Journal
+          </button>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
