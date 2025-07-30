@@ -10,7 +10,7 @@ type Props = {
 export default function StudioLayout({ journalId }: Props) {
   return (
     <div className="flex min-h-screen bg-white">
-      <ChatSidebar journalId={journalId} />
+      <ChatSidebar />
       <div className="flex-1 border-l">
         <ChatWindow journalId={journalId} />
       </div>

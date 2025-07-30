@@ -1,10 +1,6 @@
 'use client';
 
-type Props = {
-  journalId: string;
-};
-
-export default function ChatSidebar({ journalId }: Props) {
+export default function ChatSidebar() {
   return (
     <aside className="w-64 bg-gray-100 p-4 hidden md:block">
       <h2 className="text-lg font-semibold mb-4">Previous Conversations</h2>

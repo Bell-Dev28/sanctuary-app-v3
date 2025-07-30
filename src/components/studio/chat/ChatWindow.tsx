@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { PaperPlaneIcon } from '@radix-ui/react-icons';
+import { SendHorizonal } from 'lucide-react';
 import { toast } from 'sonner';
 
 type Props = {
@@ -16,15 +16,19 @@ export default function ChatWindow({ journalId }: Props) {
 
   const handleSend = () => {
     if (!input.trim()) return;
-    setMessages([...messages, { id: Date.now(), role: 'user', content: input }]);
+    setMessages((prev) => [
+      ...prev,
+      { id: Date.now(), role: 'user', content: input.trim() },
+      { id: Date.now() + 1, role: 'ai', content: 'Thanks for sharing. Would you like to reflect deeper?' }, // Mock AI response
+    ]);
     setInput('');
   };
 
-  const handleAddToShared = (msg: string) => {
+  const handleAddToShared = (content: string) => {
     toast.success('Successfully added to shared journal.', {
       action: {
         label: 'View Journal',
-        onClick: () => window.location.href = `/journal/${journalId}`,
+        onClick: () => (window.location.href = `/journal/${journalId}`),
       },
     });
   };
@@ -63,9 +67,9 @@ export default function ChatWindow({ journalId }: Props) {
         />
         <button
           onClick={handleSend}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+          className="bg-blue-600 text-white px-3 py-2 rounded hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          <PaperPlaneIcon />
+          <SendHorizonal className="w-4 h-4" />
         </button>
       </div>
     </div>
