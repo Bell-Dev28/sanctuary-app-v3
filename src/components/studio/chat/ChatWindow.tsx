@@ -19,12 +19,12 @@ export default function ChatWindow({ journalId }: Props) {
     setMessages((prev) => [
       ...prev,
       { id: Date.now(), role: 'user', content: input.trim() },
-      { id: Date.now() + 1, role: 'ai', content: 'Thanks for sharing. Would you like to reflect deeper?' }, // Mock AI response
+      { id: Date.now() + 1, role: 'ai', content: 'Thanks for sharing. Would you like to reflect deeper?' },
     ]);
     setInput('');
   };
 
-  const handleAddToShared = (content: string) => {
+  const handleAddToShared = () => {
     toast.success('Successfully added to shared journal.', {
       action: {
         label: 'View Journal',
@@ -48,7 +48,7 @@ export default function ChatWindow({ journalId }: Props) {
             <p>{msg.content}</p>
             {msg.role === 'ai' && (
               <button
-                onClick={() => handleAddToShared(msg.content)}
+                onClick={handleAddToShared}
                 className="text-sm text-blue-600 mt-2 underline hover:text-blue-800"
               >
                 + Add to Shared Journal
