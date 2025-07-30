@@ -1,13 +1,19 @@
 import IntentionModal from './IntentionModal';
 
-export default {
+const meta = {
   title: 'Sanctuary/IntentionModal',
   component: IntentionModal,
+  tags: ['autodocs'],
 };
 
-export const Open = {
+export default meta;
+
+export const OpenModal = {
   args: {
     isOpen: true,
-    onClose: () => alert('Closed modal'),
+    onClose: () => alert('Modal closed'),
+    onExplore: () => alert('Explore with AI clicked'),
+    onView: () => alert('View journal clicked'),
+    intention: 'I want to better understand my partners needs.',
   },
 };
