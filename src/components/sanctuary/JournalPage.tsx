@@ -14,9 +14,21 @@ type Props = {
 };
 
 const mockEntries: Entry[] = [
-  { id: 1, author: 'Marie', content: 'I’ve been thinking about how we connect during the week.' },
-  { id: 2, author: 'Aaron', content: 'That’s been on my mind too. Let’s make space for it.' },
-  { id: 3, author: 'Marie', content: 'Maybe even schedule it intentionally?' },
+  {
+    id: 1,
+    author: 'Marie',
+    content: 'I’ve been thinking about how we connect during the week.',
+  },
+  {
+    id: 2,
+    author: 'Aaron',
+    content: 'That’s been on my mind too. Let’s make space for it.',
+  },
+  {
+    id: 3,
+    author: 'Marie',
+    content: 'Maybe even schedule it intentionally?',
+  },
 ];
 
 export default function JournalPage({ journalId }: Props) {
@@ -24,6 +36,7 @@ export default function JournalPage({ journalId }: Props) {
 
   return (
     <div className="relative flex min-h-screen">
+      {/* Main Journal Entries Section */}
       <div className="flex-1 p-6 space-y-4">
         <h1 className="text-2xl font-semibold mb-4">Shared Sanctuary</h1>
         {mockEntries.map((entry) => (
@@ -49,8 +62,8 @@ export default function JournalPage({ journalId }: Props) {
         {open ? 'Close Panel' : 'Open Panel'}
       </button>
 
-      {/* Slide-Out Panel */}
-      <CollaborationPanel journalId={journalId} open={open} />
+      {/* Slide-Out Collaboration Panel (no longer receives unused journalId) */}
+      <CollaborationPanel open={open} />
     </div>
   );
 }

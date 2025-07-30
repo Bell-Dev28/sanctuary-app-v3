@@ -3,7 +3,6 @@
 import { useState } from 'react';
 
 type Props = {
-  journalId: string;
   open: boolean;
 };
 
@@ -13,13 +12,12 @@ const suggestions = [
   { id: 3, label: 'Draft an apology letter' },
 ];
 
-export default function CollaborationPanel({ journalId, open }: Props) {
+export default function CollaborationPanel({ open }: Props) {
   const [selectedSuggestion, setSelectedSuggestion] = useState<string | null>(null);
   const [draft, setDraft] = useState('');
 
   const handleSuggestion = (label: string) => {
     setSelectedSuggestion(label);
-    // Simulate AI response
     setDraft(`Here’s a thoughtful response for: ${label}`);
   };
 
@@ -51,7 +49,9 @@ export default function CollaborationPanel({ journalId, open }: Props) {
         </div>
       ) : (
         <>
-          <p className="text-sm mb-2 text-gray-700">Suggestion: <strong>{selectedSuggestion}</strong></p>
+          <p className="text-sm mb-2 text-gray-700">
+            Suggestion: <strong>{selectedSuggestion}</strong>
+          </p>
           <textarea
             value={draft}
             onChange={(e) => setDraft(e.target.value)}

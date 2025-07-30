@@ -23,6 +23,7 @@ export default async function JournalPage({ params }: Props) {
 
   return (
     <div className="relative flex min-h-screen">
+      {/* Main Content Area */}
       <div className="flex-1 p-6 space-y-6 overflow-y-auto">
         <h1 className="text-2xl font-bold">{journal.title}</h1>
 
@@ -35,9 +36,9 @@ export default async function JournalPage({ params }: Props) {
         </div>
       </div>
 
-      {/* Collaboration Panel Toggle */}
+      {/* Collaboration Panel (open by default for now) */}
       <Suspense fallback={null}>
-        <CollaborationPanel journalId={journalId} open={true} />
+        <CollaborationPanel open={true} />
       </Suspense>
     </div>
   );
