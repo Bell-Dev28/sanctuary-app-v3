@@ -9,10 +9,6 @@ type Entry = {
   content: string;
 };
 
-type Props = {
-  journalId: string;
-};
-
 const mockEntries: Entry[] = [
   {
     id: 1,
@@ -31,7 +27,7 @@ const mockEntries: Entry[] = [
   },
 ];
 
-export default function JournalPage({ journalId }: Props) {
+export default function JournalPage() {
   const [open, setOpen] = useState(false);
 
   return (
@@ -62,7 +58,7 @@ export default function JournalPage({ journalId }: Props) {
         {open ? 'Close Panel' : 'Open Panel'}
       </button>
 
-      {/* Slide-Out Collaboration Panel (no longer receives unused journalId) */}
+      {/* Slide-Out Collaboration Panel */}
       <CollaborationPanel open={open} />
     </div>
   );
