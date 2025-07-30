@@ -1,32 +1,64 @@
 'use client';
 
-import { Badge } from '@/components/ui/Badge';
+import { Heart } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-interface PlaybookCardProps {
+type Props = {
+  id: string;
   title: string;
   content: string;
-  favoritedBy: { me: boolean; partner: boolean };
-  onFavorite: () => void;
-}
+  favoritedBy: {
+    me: boolean;
+    partner: boolean;
+  };
+  onFavorite: (playbookId: string, user: 'me' | 'partner') => void;
+};
 
-export default function PlaybookCard({ title, content, favoritedBy, onFavorite }: PlaybookCardProps) {
+export default function PlaybookCard({
+  id,
+  title,
+  content,
+  favoritedBy,
+  onFavorite,
+}: Props) {
   return (
-    <div className="border p-4 rounded-lg shadow-sm mb-4">
+    <div className="border rounded p-4 bg-white shadow-sm hover:shadow transition">
       <div className="flex justify-between items-center mb-2">
-        <h3 className="text-lg font-semibold">{title}</h3>
-        <div>
-          <span
-            className={favoritedBy.me ? 'text-red-500' : 'text-gray-400'}
-            onClick={onFavorite}
-            role="button"
-          >❤️</span>
-          <span className={favoritedBy.partner ? 'text-blue-500 ml-2' : 'text-gray-400 ml-2'}>❤️</span>
+        <h3 className="font-semibold text-lg">{title}</h3>
+        <div className="flex gap-2">
+          {/* Marie's Heart */}
+          <button
+            onClick={() => onFavorite(id, 'me')}
+            className={cn(
+              'p-1 rounded hover:bg-gray-100 transition',
+              favoritedBy.me && 'text-pink-500'
+            )}
+            aria-label="Favorite by Marie"
+          >
+            <Heart
+              fill={favoritedBy.me ? 'currentColor' : 'none'}
+              className="w-5 h-5"
+            />
+          </button>
+
+          {/* Aaron's Heart */}
+          <button
+            onClick={() => onFavorite(id, 'partner')}
+            className={cn(
+              'p-1 rounded hover:bg-gray-100 transition',
+              favoritedBy.partner && 'text-blue-500'
+            )}
+            aria-label="Favorite by Aaron"
+          >
+            <Heart
+              fill={favoritedBy.partner ? 'currentColor' : 'none'}
+              className="w-5 h-5"
+            />
+          </button>
         </div>
       </div>
-      <p className="text-sm whitespace-pre-line">{content}</p>
-      <div className="mt-2">
-        <Badge>Playbook</Badge>
-      </div>
+
+      <p className="text-sm text-gray-700 whitespace-pre-wrap">{content}</p>
     </div>
   );
 }
