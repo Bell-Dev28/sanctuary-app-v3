@@ -2,16 +2,12 @@
 
 import { ReactNode } from 'react';
 import Header from './Header';
-import SideNav from './SideNav';
 
 export default function LayoutClient({ children }: { children: ReactNode }) {
   return (
-    <div className="flex h-screen">
-      <SideNav />
-      <div className="flex-1 overflow-y-auto">
-        <Header />
-        <main className="p-6">{children}</main>
-      </div>
+    <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900">
+      <Header />
+      <main className="flex-1 overflow-y-auto p-6">{children}</main>
     </div>
   );
 }
