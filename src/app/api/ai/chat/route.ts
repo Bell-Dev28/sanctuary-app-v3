@@ -2,26 +2,23 @@ import { NextRequest, NextResponse } from 'next/server';
 import type { Database } from '@/types/supabase';
 
 type AIMessage = Database['public']['Tables']['ai_messages']['Row'];
-type ChatRole = 'user' | 'ai';
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const messages = body.messages as AIMessage[];
 
-  const history = messages.filter((m) =>
-    m.role === 'user' || m.role === 'ai'
+  const history = messages.filter(
+    (m) => m.sender === 'user' || m.sender === 'ai'
   );
 
-  const lastUserMessage = history
-    .filter((m) => m.role === 'user')
-    .pop();
+  const lastUserMessage = history.filter((m) => m.sender === 'user').pop();
 
   const userInputs = history
-    .filter((m) => m.role === 'user')
+    .filter((m) => m.sender === 'user')
     .map((m) => m.content);
 
   const aiResponses = history
-    .filter((m) => m.role === 'ai')
+    .filter((m) => m.sender === 'ai')
     .map((m) => m.content);
 
   const response = await fetch(process.env.HUGGING_FACE_ENDPOINT_URL!, {
