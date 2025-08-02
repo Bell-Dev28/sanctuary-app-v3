@@ -1,63 +1,96 @@
 'use client';
 
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { Book, Brain, PenLineIcon, LogOut } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useEffect } from 'react';
+import { useUser } from '@/context/AuthContext';
+import { createClient } from '@/utils/supabase/client';
+
+const MotionAside = motion<React.HTMLAttributes<HTMLElement>>('aside');
 
 const navItems = [
-  { href: '/library', label: 'Library' },
-  { href: '/playbooks', label: 'Playbooks' },
-  { href: '/assistant', label: 'AI Assistant' },
+  { href: '/library', label: 'Library', icon: Book },
+  { href: '/playbooks', label: 'Playbooks', icon: PenLineIcon },
+  { href: '/assistant', label: 'AI Assistant', icon: Brain },
 ];
 
-export default function SideNav({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  const pathname = usePathname();
+type SideNavProps = {
+  isOpen: boolean;
+  onClose: () => void;
+};
 
-  // Close nav on route change
+export default function SideNav({ isOpen, onClose }: SideNavProps) {
+  const pathname = usePathname();
+  const { user } = useUser();
+  const supabase = createClient();
+
+  const logout = async () => {
+    await supabase.auth.signOut();
+    window.location.href = '/login';
+  };
+
   useEffect(() => {
-    onClose();
-  }, [pathname, onClose]);
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [onClose]);
 
   return (
-    <aside
-      className={cn(
-        'fixed z-50 md:relative md:translate-x-0 w-64 h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 shadow-sm transition-transform duration-300 ease-in-out',
-        isOpen ? 'translate-x-0' : '-translate-x-full'
+    <>
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-30 z-40"
+          onClick={onClose}
+        />
       )}
-    >
-      <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-        <div className="flex items-center gap-2">
+      <MotionAside
+        initial={{ x: '-100%' }}
+        animate={{ x: isOpen ? 0 : '-100%' }}
+        transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+        className="fixed top-0 left-0 z-50 w-64 h-full bg-white dark:bg-gray-900 shadow-lg p-4 flex flex-col"
+      >
+        <div className="flex items-center gap-3 mb-6">
           <img
             src="/profile.jpg"
-            alt="Profile"
-            className="w-8 h-8 rounded-full border border-gray-300"
+            alt="Avatar"
+            className="w-10 h-10 rounded-full border"
           />
-          <span className="font-semibold text-sm">Marie</span>
+          <div className="text-sm font-semibold text-gray-800 dark:text-white">
+            {user?.email || 'Guest'}
+          </div>
         </div>
-        <button
-          className="md:hidden text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white"
-          onClick={onClose}
-          aria-label="Close Menu"
-        >
-          ✕
-        </button>
-      </div>
 
-      <nav className="flex flex-col px-4 py-6 space-y-2">
-        {navItems.map(({ href, label }) => (
-          <Link
-            key={href}
-            href={href}
-            className={cn(
-              'text-sm px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition',
-              pathname === href ? 'bg-gray-200 dark:bg-gray-700 font-semibold' : 'text-gray-700 dark:text-gray-300'
-            )}
-          >
-            {label}
-          </Link>
-        ))}
-      </nav>
-    </aside>
+        <nav className="space-y-2 flex-1">
+          {navItems.map(({ href, label, icon: Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              onClick={onClose}
+              className={cn(
+                'flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition text-sm',
+                pathname === href
+                  ? 'bg-gray-200 dark:bg-gray-800 font-semibold'
+                  : 'text-gray-700 dark:text-gray-300'
+              )}
+            >
+              <Icon className="w-5 h-5" />
+              {label}
+            </Link>
+          ))}
+        </nav>
+
+        <button
+          onClick={logout}
+          className="flex items-center gap-2 mt-auto text-sm text-red-600 hover:text-red-800"
+        >
+          <LogOut className="w-4 h-4" /> Logout
+        </button>
+      </MotionAside>
+    </>
   );
 }
