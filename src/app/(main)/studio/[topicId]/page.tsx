@@ -2,13 +2,13 @@ import { notFound } from 'next/navigation';
 import StudioLayout from '@/components/studio/StudioLayout';
 
 type Props = {
-  params: { journalId: string };
+  params: { topicId: string };
 };
 
-export default function StudioPage({ params }: Props) {
-  const { journalId } = params;
+export default function Page({ params }: Props) {
+  const conversationId = params.topicId;
 
-  if (!journalId) notFound();
+  if (!conversationId) notFound();
 
-  return <StudioLayout journalId={journalId} />;
+  return <StudioLayout conversationId={conversationId} />;
 }

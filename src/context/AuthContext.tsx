@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       listener.subscription.unsubscribe();
     };
-  }, [supabase.auth]);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, session }}>

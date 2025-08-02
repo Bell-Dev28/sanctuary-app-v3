@@ -1,7 +1,8 @@
-import { createClient } from '@/utils/supabase/server';
+import { getSupabaseServer } from '@/utils/supabase/server';
 
 export async function createConversation(journalId: number | null, userId: string) {
-  const supabase = createClient();
+  const supabase = getSupabaseServer();
+
   const { data, error } = await supabase
     .from('ai_conversations')
     .insert({ journal_id: journalId, user_id: userId })

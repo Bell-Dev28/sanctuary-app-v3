@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { AIMessage } from '@/types/supabase';
+import { Database } from '@/types/supabase';
 import { createClient } from '@/utils/supabase/client';
+
+export type AIMessage = Database['public']['Tables']['ai_messages']['Row'];
 
 export function useChatSession(conversationId: string) {
   const supabase = createClient();
@@ -25,7 +27,7 @@ export function useChatSession(conversationId: string) {
   const sendMessage = async (userInput: string) => {
     const updated = [
       ...messages,
-      { role: 'user', content: userInput } as AIMessage,
+      { sender: 'user', content: userInput } as AIMessage,
     ];
     setMessages(updated);
     setLoading(true);
@@ -36,7 +38,7 @@ export function useChatSession(conversationId: string) {
     });
     const data = await res.json();
 
-    const aiMessage = { role: 'ai', content: data.output } as AIMessage;
+    const aiMessage = { sender: 'ai', content: data.output } as AIMessage;
     setMessages([...updated, aiMessage]);
     setLoading(false);
 

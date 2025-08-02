@@ -4,13 +4,19 @@ import { useState } from 'react';
 import { SendHorizonal } from 'lucide-react';
 import { useChatSession } from '@/lib/hooks/useChatSession';
 import { saveMessage } from '@/lib/actions/ai/saveMessage';
+import type { AIMessage } from '@/lib/hooks/useChatSession';
 
-export default function ChatWindow({ conversationId }: { conversationId: string }) {
+type Props = {
+  conversationId: string;
+};
+
+export default function ChatWindow({ conversationId }: Props) {
   const [input, setInput] = useState('');
   const { messages, sendMessage, loading } = useChatSession(conversationId);
 
   const handleSend = async () => {
     if (!input.trim()) return;
+
     const { userInput, aiOutput } = await sendMessage(input);
     setInput('');
 
@@ -21,7 +27,7 @@ export default function ChatWindow({ conversationId }: { conversationId: string 
   return (
     <div className="flex flex-col h-full">
       <div className="flex-1 overflow-y-auto p-6 space-y-4">
-        {messages.map((msg, index) => (
+        {messages.map((msg: AIMessage, index: number) => (
           <div
             key={index}
             className={`max-w-xl p-3 rounded ${
