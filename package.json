@@ -26,7 +26,8 @@
     "next-themes": "^0.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sonner": "^2.0.6"
+    "sonner": "^2.0.6",
+    "supabase": "^2.33.7"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.0.1",
