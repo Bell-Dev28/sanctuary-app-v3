@@ -97,7 +97,6 @@ export type Database = {
       }
       ai_messages: {
         Row: {
-          [x: string]: string
           content: string
           conversation_id: string | null
           created_at: string | null
