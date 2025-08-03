@@ -2,45 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Core Body Styling */
+/* Global base styles */
 body {
-  @apply text-gray-900 bg-white dark:text-gray-100 dark:bg-gray-900 transition-colors duration-300;
+  @apply bg-white text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300;
 }
 
-/* Smooth scrolling */
-html {
+/* Smooth transitions for theme toggling and interactions */
+html,
+body {
   scroll-behavior: smooth;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-/* Typography Defaults */
-.prose {
-  @apply prose-gray dark:prose-invert;
+/* Scrollbar styling (cross-browser, minimal) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
 }
-
-/* Form Elements (enhanced with @tailwindcss/forms) */
-input,
-textarea,
-select,
-button {
-  @apply focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary;
-}
-
-/* Utility for rounded cards or modals */
-.card {
-  @apply rounded-lg bg-white dark:bg-gray-800 shadow p-6;
-}
-
-/* Custom scrollbar (if using tailwind-scrollbar) */
-.scrollbar-thin::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-.scrollbar-thin::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   background-color: rgba(100, 100, 100, 0.4);
-  border-radius: 10px;
+  border-radius: 9999px;
 }
-
-/* Button transitions (complementing tailwindcss-animate) */
-button {
-  @apply transition-transform hover:scale-[1.02] active:scale-[0.98];
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 100, 100, 0.6);
 }

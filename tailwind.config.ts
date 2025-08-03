@@ -1,4 +1,17 @@
 import type { Config } from 'tailwindcss';
+import plugin from 'tailwindcss/plugin';
+
+const scrollbarPlugin = plugin(function ({ addUtilities }) {
+  addUtilities({
+    '.scrollbar-hide': {
+      'scrollbar-width': 'none',
+      '-ms-overflow-style': 'none',
+    },
+    '.scrollbar-hide::-webkit-scrollbar': {
+      display: 'none',
+    },
+  });
+});
 
 const config: Config = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
@@ -35,6 +48,9 @@ const config: Config = {
         md: '0.375rem',
         sm: '0.25rem',
       },
+      perspective: {
+        1000: '1000px',
+      },
     },
   },
   plugins: [
@@ -42,8 +58,7 @@ const config: Config = {
     require('@tailwindcss/typography'),
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/line-clamp'),
-    require('tailwindcss-animate'),
-    require('tailwindcss-fluid-type'),
+    scrollbarPlugin,
   ],
 };
 
