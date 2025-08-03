@@ -1,7 +1,7 @@
 import './globals.css';
 import { ReactNode } from 'react';
 import { ThemeProvider } from '@/providers/ThemeProvider';
-import { AuthProvider } from '@/context/AuthContext'; // ✅ add this
+import { AuthProvider } from '@/context/AuthContext';
 
 export const metadata = {
   title: 'Sanctuary App',
@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <body>
         <ThemeProvider>
-          <AuthProvider> {/* ✅ wrap everything inside here */}
+          <AuthProvider>
             {children}
           </AuthProvider>
         </ThemeProvider>

@@ -23,14 +23,14 @@ export default function MainLayout({ children }: { children: ReactNode }) {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div className="flex min-h-screen bg-background text-foreground transition-colors">
       <MobileNavToggle onClick={() => setSidebarOpen(!sidebarOpen)} />
       <SideNav isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <main className="flex-1 p-6 overflow-y-auto w-full transition-colors duration-300 relative">
-        <div className="absolute top-4 right-6">
+      <main className="flex-1 p-6 overflow-y-auto w-full relative">
+        <div className="absolute top-4 right-6 z-30">
           <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
         </div>
-        {children}
+        <div className="max-w-6xl mx-auto w-full">{children}</div>
       </main>
     </div>
   );
