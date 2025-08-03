@@ -1,6 +1,12 @@
 import { useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
 
+export type AIMessage = {
+  sender: 'user' | 'ai';
+  content: string;
+  created_at?: string;
+};
+
 export function useChatSession(conversationId: string, handleUpdate: () => void) {
   const supabase = createClient();
 
@@ -13,5 +19,5 @@ export function useChatSession(conversationId: string, handleUpdate: () => void)
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [conversationId, handleUpdate, supabase]); // ✅ Added supabase to deps
+  }, [conversationId, handleUpdate, supabase]);
 }
