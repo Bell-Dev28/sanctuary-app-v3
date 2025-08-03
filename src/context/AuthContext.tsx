@@ -1,51 +1,34 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
-import { Session, User } from '@supabase/supabase-js';
+import { User } from '@supabase/supabase-js';
 
-interface AuthContextType {
-  user: User | null;
-  session: Session | null;
-}
+const AuthContext = createContext<{ user: User | null }>({ user: null });
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
+export function AuthProvider({ children }: { children: React.ReactNode }) {
   const supabase = createClient();
-  const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const fetchSession = async () => {
-      const { data } = await supabase.auth.getSession();
-      setSession(data.session);
-      setUser(data.session?.user ?? null);
+    const getSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
     };
+    getSession();
 
-    fetchSession();
-
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
+    const { data: listener } = supabase.auth.onAuthStateChange((_, session) => {
       setUser(session?.user ?? null);
     });
 
     return () => {
       listener.subscription.unsubscribe();
     };
-  }, []);
+  }, [supabase.auth]); // ✅ Added dependency
 
-  return (
-    <AuthContext.Provider value={{ user, session }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
+  return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
+}
 
-export const useUser = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useUser must be used within an AuthProvider');
-  }
-  return context;
-};
+export const useUser = () => useContext(AuthContext);

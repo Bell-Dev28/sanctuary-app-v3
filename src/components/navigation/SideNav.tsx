@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Book, Brain, PenLineIcon, LogOut } from 'lucide-react';
 import { usePathname } from 'next/navigation';
@@ -8,8 +9,6 @@ import { cn } from '@/lib/utils';
 import { useEffect } from 'react';
 import { useUser } from '@/context/AuthContext';
 import { createClient } from '@/utils/supabase/client';
-
-const MotionAside = motion<React.HTMLAttributes<HTMLElement>>('aside');
 
 const navItems = [
   { href: '/library', label: 'Library', icon: Book },
@@ -43,26 +42,24 @@ export default function SideNav({ isOpen, onClose }: SideNavProps) {
   return (
     <>
       {isOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-30 z-40"
-          onClick={onClose}
-        />
+        <div className="fixed inset-0 bg-black bg-opacity-30 z-40" onClick={onClose} />
       )}
-      <MotionAside
+
+      <motion.aside
         initial={{ x: '-100%' }}
         animate={{ x: isOpen ? 0 : '-100%' }}
         transition={{ type: 'spring', stiffness: 260, damping: 20 }}
         className="fixed top-0 left-0 z-50 w-64 h-full bg-white dark:bg-gray-900 shadow-lg p-4 flex flex-col"
       >
         <div className="flex items-center gap-3 mb-6">
-          <img
+          <Image
             src="/profile.jpg"
             alt="Avatar"
-            className="w-10 h-10 rounded-full border"
+            width={40}
+            height={40}
+            className="rounded-full border"
           />
-          <div className="text-sm font-semibold text-gray-800 dark:text-white">
-            {user?.email || 'Guest'}
-          </div>
+          <div className="text-sm font-semibold">{user?.email || 'Guest'}</div>
         </div>
 
         <nav className="space-y-2 flex-1">
@@ -90,7 +87,7 @@ export default function SideNav({ isOpen, onClose }: SideNavProps) {
         >
           <LogOut className="w-4 h-4" /> Logout
         </button>
-      </MotionAside>
+      </motion.aside>
     </>
   );
 }
